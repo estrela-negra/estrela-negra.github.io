@@ -1,5 +1,5 @@
 {
- "aprovado": false,
+ "aprovado": true,
  "tag": "estrelanegr03-20",
  "nota": "Página Equipamentos (Amazon Associados). Só vai ao ar com aprovado=true (decisão do Bruno). Sem preço e sem foto de produto: a Amazon proíbe preço desatualizado e imagem fora do SiteStripe/API. Conferir ASINs vivos na tarefa semanal.",
  "secoes": [
@@ -183,5 +183,6 @@
     }
    ]
   }
- ]
+ ],
+ "aprovado_em": "2026-11-24 (Bruno: 'Pode publicar')"
 }
