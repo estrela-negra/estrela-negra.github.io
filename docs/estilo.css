@@ -145,6 +145,8 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .rod .w1 img{height:48px}.rod .plat a:hover{color:var(--rxl)}
 .rod .w2 .w{gap:24px}
 .mm{display:none}
+.ctaeq{display:flex;align-items:center;justify-content:space-between;gap:32px;background:var(--esc) url(img/grao.png) repeat;color:var(--off);border-radius:14px;padding:36px 40px;margin:0 0 90px;box-shadow:0 0 0 1px rgba(168,139,255,.25)}
+.ctaeq h3{font-weight:300;font-size:30px;letter-spacing:-.015em;margin:10px 0 8px}.ctaeq h3 span{color:var(--rxl);text-shadow:0 0 24px rgba(168,139,255,.5)}.ctaeq p{color:var(--mu2);margin:0;font-size:14px;max-width:560px}.ctaeq .bt{flex:none}
 .aviso{border:1px solid var(--ln);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--mu);margin:0 0 8px}
 .chips{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}.chips a{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border:1px solid var(--ln);border-radius:99px;padding:8px 16px}.chips a:hover{border-color:var(--rx);color:var(--rx)}
 .lj{padding:72px 0 8px;scroll-margin-top:16px}.lj .intro{color:var(--mu);max-width:720px;margin:14px 0 36px;font-size:16px}
@@ -175,5 +177,5 @@ a.foto{display:block}a.foto:hover b{color:var(--rx)}
 .hero .img{min-height:260px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%)}
 .hero{padding:32px 0 48px}.numeros{gap:22px;flex-wrap:wrap}.numeros b{font-size:30px}
 .bt.lin{margin:12px 0 0}
-.trio{grid-template-columns:minmax(0,1fr)}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
+.trio{grid-template-columns:minmax(0,1fr)}.ctaeq{flex-direction:column;align-items:flex-start;padding:28px 22px}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 }

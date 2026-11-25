@@ -291,6 +291,8 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .rod .w1 img{height:48px}.rod .plat a:hover{color:var(--rxl)}
 .rod .w2 .w{gap:24px}
 .mm{display:none}
+.ctaeq{display:flex;align-items:center;justify-content:space-between;gap:32px;background:var(--esc) url(img/grao.png) repeat;color:var(--off);border-radius:14px;padding:36px 40px;margin:0 0 90px;box-shadow:0 0 0 1px rgba(168,139,255,.25)}
+.ctaeq h3{font-weight:300;font-size:30px;letter-spacing:-.015em;margin:10px 0 8px}.ctaeq h3 span{color:var(--rxl);text-shadow:0 0 24px rgba(168,139,255,.5)}.ctaeq p{color:var(--mu2);margin:0;font-size:14px;max-width:560px}.ctaeq .bt{flex:none}
 .aviso{border:1px solid var(--ln);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--mu);margin:0 0 8px}
 .chips{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}.chips a{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border:1px solid var(--ln);border-radius:99px;padding:8px 16px}.chips a:hover{border-color:var(--rx);color:var(--rx)}
 .lj{padding:72px 0 8px;scroll-margin-top:16px}.lj .intro{color:var(--mu);max-width:720px;margin:14px 0 36px;font-size:16px}
@@ -322,7 +324,7 @@ MOB = """
 .hero .img{min-height:260px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%)}
 .hero{padding:32px 0 48px}.numeros{gap:22px;flex-wrap:wrap}.numeros b{font-size:30px}
 .bt.lin{margin:12px 0 0}
-.trio{grid-template-columns:minmax(0,1fr)}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
+.trio{grid-template-columns:minmax(0,1fr)}.ctaeq{flex-direction:column;align-items:flex-start;padding:28px 22px}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 """
 for f_ in ("hero_anel.jpg", "anel_pag.jpg", "feixe.jpg", "bruno_anel.jpg", "bruno_foto.jpg", "grao.png"): shutil.copy(AQUI + "/arte/" + f_, OUT + "img/" + f_)
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))
@@ -353,6 +355,9 @@ def cat(t):
 def ytseg(t): a, b = t.split(":"); return int(a) * 60 + int(b)
 def it(d, raiz):
     return '<a class="it" data-c="%s" href="%s%s/"><img src="%s%s" alt="%s" loading="lazy"><p class="n">%s</p><p class="s">%s · %d fontes</p></a>' % (cat(d["titulo"]), raiz, d["sl"], raiz, d["img"], e(d["titulo"]), e(d["titulo"]), cat(d["titulo"]), len(d["fontes"]))
+def cta_eq(raiz, txt="Binóculos, telescópios e livros que o canal indica, com o que cada um mostra e o limite de cada um."):
+    if not COM_LOJA: return ""
+    return '<div class="w"><aside class="ctaeq"><div><span class="rot">Equipamentos</span><h3>Quer ver o céu <span>com os próprios olhos?</span></h3><p>%s</p></div><a class="bt" href="%sequipamentos/">Ver indicações</a></aside></div>' % (txt, raiz)
 def topo_hero(rot, titulo, texto, arte, extra="", alt="420px"):
     return '<div class="w"><section class="hero" style="min-height:%s"><div><span class="rot">%s</span><h1 class="marca-h">%s</h1>%s%s</div><div class="img" style="background-image:url(%s)"></div></section></div></div>' % (alt, rot, titulo, '<p class="lead">%s</p>' % texto if texto else "", extra, arte)
 # ------------------------------------------------------------------ início
@@ -366,6 +371,7 @@ if len(DADOS) > 3:
     tres = DADOS[1:4]
     h.append('<section class="cinza escuro"><div class="w"><span class="rot">Episódios</span><h2 class="tit c">Últimos <span>episódios</span></h2><a class="bt esc" href="episodios/">Ver todos</a><div class="trio">%s</div></div></section>' % "".join('<a class="ep" href="%s/"><img src="%s" alt="%s" loading="lazy"><p>%s</p><p class="s">%s · %d fontes</p></a>' % (x["sl"], x["img"], e(x["titulo"]), e(x["titulo"]), cat(x["titulo"]), len(x["fontes"])) for x in tres))
 h.append('<div class="w"><section class="secao c"><span class="rot">Instagram</span><h2 class="tit c">Uma foto do céu <span>por dia</span></h2><p style="color:var(--mu);margin:16px 0 0">Imagens dos telescópios James Webb, Hubble e ESO, explicadas.</p><div class="fotos">%s</div><p style="margin-top:44px"><a class="bt" href="%s">Seguir @estrelanegra_p</a><a class="bt esc" style="margin-left:12px" href="fotos/">Ver as explicações</a></p></section></div>' % ("".join('<a href="fotos/"><img src="%s" alt="Foto de telescópio" loading="lazy"></a>' % x for x in IG[:5]), INSTA))
+h.append(cta_eq(""))
 h.append('<section class="escuro"><div class="w"><div class="metodo"><span class="rot">Como a gente checa</span><h2 class="tit">Toda frase <span>tem fonte</span></h2><div class="passos"><div><i>01</i><b>Fonte primária</b>Agências espaciais, observatórios e artigos científicos, com link em cada episódio.</div><div><i>02</i><b>Revisão independente</b>Um segundo revisor confere o roteiro frase a frase antes da gravação.</div><div><i>03</i><b>Grau de certeza</b>Consenso, evidência forte, debate ou hipótese: cada vídeo diz qual é.</div></div></div></div></section>')
 h.append(rodape("")); open(OUT + "index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ episódios
@@ -430,6 +436,7 @@ for d in DADOS:
     cs = certezas(d["cert"])
     if cs: h.append("<h4>Grau de certeza</h4><ul>" + "".join("<li>%s<br>%s</li>" % ('<span class="selo %s">%s</span>' % (seloclasse(n), e(nivel(n))) if n else "", e(o)) for n, o in cs) + "</ul>")
     h.append('<a class="bt" style="display:block;text-align:center" href="https://youtu.be/%s">Assistir no YouTube</a><a class="bt esc" style="display:block;text-align:center;margin-top:10px;color:var(--off);border-color:var(--off)" href="%s?sub_confirmation=1">Inscrever-se</a></aside></div></div>' % (d["vid"], YT))
+    h.append(cta_eq("../"))
     outros = [x for x in DADOS if x is not d][:4]
     if outros: h.append('<section class="cinza escuro" style="text-align:left"><div class="w"><span class="rot">Continue</span><h2 class="tit">Mais <span>episódios</span></h2><div class="g4" style="margin-top:40px">%s</div></div></section>' % "".join(it(x, "../") for x in outros))
     h.append(rodape("../")); os.makedirs(OUT + d["sl"]); open(OUT + d["sl"] + "/index.html", "w", encoding="utf-8").write("\n".join(h))
@@ -456,6 +463,7 @@ for i_, x in enumerate(FOTOS):
     ant = FOTOS[i_ - 1] if i_ > 0 else None; prox = FOTOS[i_ + 1] if i_ + 1 < len(FOTOS) else None
     h.append('<nav class="navv">%s%s</nav>' % ('<a href="../%s/"><span>← Foto anterior</span><b>%s</b></a>' % (ant["sl"], e(ant["titulo"])) if ant else "<div></div>", '<a class="d" href="../%s/"><span>Próxima foto →</span><b>%s</b></a>' % (prox["sl"], e(prox["titulo"])) if prox else ""))
     h.append('</article><aside class="lado ficha"><h4>Ficha</h4><ul><li><b>Objeto</b>%s</li><li><b>Telescópio</b>%s</li><li><b>Imagem</b>%s</li></ul><a class="bt" style="display:block;text-align:center" href="%s">Uma foto por dia no Instagram</a><a class="bt esc" style="display:block;text-align:center;margin-top:10px;color:var(--off);border-color:var(--off)" href="../">Ver todas as fotos</a></aside></div></div>' % (e(x["titulo"].split("(")[0].strip()), e(tel), e(x["cred"]), INSTA))
+    h.append(cta_eq("../../", "Muito do que aparece nas fotos de telescópio dá para começar a ver com um bom binóculo: a Lua, aglomerados e nebulosas brilhantes. Veja o que o canal indica."))
     outras = [y for y in FOTOS if y is not x][i_ % max(1, len(FOTOS) - 4):][:4] or FOTOS[:4]
     h.append('<section class="cinza escuro" style="text-align:left"><div class="w"><span class="rot">Continue</span><h2 class="tit">Mais fotos <span>do céu</span></h2><div class="g4" style="margin-top:40px">%s</div></div></section>' % "".join('<a class="it" href="../%s/"><img src="../../img/fc_%02d.jpg" alt="%s" loading="lazy" style="aspect-ratio:1"><p class="n">%s</p><p class="s">%s</p></a>' % (y["sl"], y["k"], e(y["titulo"]), e(y["titulo"]), e(y["tag"].split("·")[-1].strip().title())) for y in outras))
     h.append(rodape("../../")); os.makedirs(OUT + "fotos/" + x["sl"], exist_ok=True); open(OUT + "fotos/%s/index.html" % x["sl"], "w", encoding="utf-8").write("\n".join(h))
