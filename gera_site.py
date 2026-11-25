@@ -297,7 +297,11 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .chips{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}.chips a{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border:1px solid var(--ln);border-radius:99px;padding:8px 16px}.chips a:hover{border-color:var(--rx);color:var(--rx)}
 .lj{padding:72px 0 8px;scroll-margin-top:16px}.lj .intro{color:var(--mu);max-width:720px;margin:14px 0 36px;font-size:16px}
 .g3l{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-.pr{display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:14px;padding:26px;background:rgba(255,255,255,.35);transition:all .25s}.pr:hover{border-color:var(--rx);box-shadow:0 0 0 1px var(--rx)}
+.cx{display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.35);transition:all .25s}.cx:hover{border-color:var(--rx);box-shadow:0 0 0 1px var(--rx);transform:translateY(-3px)}
+.pi{display:block;position:relative;aspect-ratio:4/3;overflow:hidden;background:#111}.pi img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.cx:hover .pi img{transform:scale(1.04)}
+.pi i{position:absolute;right:10px;bottom:8px;font-style:normal;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.75);background:rgba(10,9,14,.55);padding:3px 7px;border-radius:99px}
+.pr{display:flex;flex-direction:column;flex:1;padding:22px 24px 24px}
+#nerd .tit2 span{color:var(--rx)}#nerd{border-top:1px solid var(--ln);margin-top:40px}
 .pr .sl{align-self:flex-start;font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:var(--rx);border-radius:99px;padding:5px 10px;margin-bottom:14px;box-shadow:var(--glow)}
 .pr h3{font-weight:500;font-size:19px;line-height:1.3;margin:0 0 16px}
 .pr dl{margin:0 0 22px;font-size:14px;line-height:1.55;color:#3D3A44;flex:1}.pr dt{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--rx);margin:12px 0 3px}.pr dt.l{color:var(--mu)}.pr dd{margin:0}
@@ -473,13 +477,17 @@ if COM_LOJA:
     og_e = cartao("equipamentos", "Equipamentos", "O que usar para olhar o céu, e o que ler", L5 + "T1412_saturno_aneis_cassini.jpg")
     h = [cabeca("Equipamentos · Estrela Negra", "Binóculos, telescópios, livros e acessórios de astronomia indicados pelo Estrela Negra, com o que cada um mostra e o limite de cada um.", URL + "equipamentos/", og_e, "website", "../", "equipamentos/")]
     h.append(topo_hero("Indicações do canal", "Para olhar<br><span>o céu</span>", "Binóculos, telescópios, livros e acessórios. Cada indicação diz para quem é, o que dá para ver e qual é o limite.", "../img/anel_pag.jpg"))
-    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV, "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
+    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV + " Fotos ilustrativas (Freepik): o produto real está na página da Amazon.", "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
     for sc in LOJA["secoes"]:
         cards_ = []
         for it in sc["itens"]:
             u = "https://www.amazon.com.br/dp/%s?tag=%s" % (it["asin"], TAG)
-            cards_.append('<div class="pr">%s<h3>%s</h3><dl><dt>Para quem</dt><dd>%s</dd><dt>O que dá para ver</dt><dd>%s</dd><dt class="l">Limite</dt><dd>%s</dd></dl><a class="bt" href="%s" rel="sponsored nofollow noopener" target="_blank">Ver na Amazon</a></div>' % ('<span class="sl">%s</span>' % e(it["selo"]) if it.get("selo") else "", e(it["nome"]), e(it["para"]), e(it["ve"]), e(it["limite"]), u))
-        h.append('<section class="lj" id="%s"><span class="rot">%s</span><h2 class="tit2">%s</h2><p class="intro">%s</p><div class="g3l">%s</div></section>' % (sc["id"], "Equipamentos", destaca(sc["titulo"]), e(sc["intro"]), "".join(cards_)))
+            fimg = AQUI + "/arte/loja/%s.jpg" % it["asin"]; im_html = ""
+            if os.path.exists(fimg):
+                os.makedirs(OUT + "img/loja", exist_ok=True); shutil.copy(fimg, OUT + "img/loja/%s.jpg" % it["asin"])
+                im_html = '<a class="pi" href="%s" rel="sponsored nofollow noopener" target="_blank"><img src="../img/loja/%s.jpg" alt="" loading="lazy"><i>Foto ilustrativa</i></a>' % (u, it["asin"])
+            cards_.append(im_html + '<div class="pr">%s<h3>%s</h3><dl><dt>Para quem</dt><dd>%s</dd><dt>O que dá para ver</dt><dd>%s</dd><dt class="l">Limite</dt><dd>%s</dd></dl><a class="bt" href="%s" rel="sponsored nofollow noopener" target="_blank">Ver na Amazon</a></div>' % ('<span class="sl">%s</span>' % e(it["selo"]) if it.get("selo") else "", e(it["nome"]), e(it["para"]), e(it["ve"]), e(it["limite"]), u))
+        h.append('<section class="lj" id="%s"><span class="rot">%s</span><h2 class="tit2">%s</h2><p class="intro">%s</p><div class="g3l">%s</div></section>' % (sc["id"], "Equipamentos", destaca(sc["titulo"]), e(sc["intro"]), "".join('<div class="cx">%s</div>' % c for c in cards_)))
     h.append('<p class="aviso" style="margin:64px 0 100px">%s Os preços e a disponibilidade mudam na Amazon; confira na página do produto.</p></div>' % AV)
     h.append(rodape("../")); os.makedirs(OUT + "equipamentos", exist_ok=True); open(OUT + "equipamentos/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ /links (página do link da bio)

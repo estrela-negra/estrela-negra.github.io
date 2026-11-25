@@ -14,14 +14,16 @@
      "para": "Primeiro instrumento, para qualquer idade",
      "ve": "Crateras e mares da Lua, as quatro maiores luas de Júpiter como pontinhos, as Plêiades e a Nebulosa de Órion como uma mancha.",
      "limite": "Não mostra os anéis de Saturno nem detalhes de planetas: o aumento de 7 vezes é baixo para isso.",
-     "selo": "Mais indicado"
+     "selo": "Mais indicado",
+     "foto_stock": 3469447
     },
     {
      "asin": "B003AM87Q4",
      "nome": "Binóculo Celestron SkyMaster 25x70",
      "para": "Quem já tem um binóculo e quer ir mais fundo",
      "ve": "Aglomerados de estrelas, cometas brilhantes e a Lua com muito mais detalhe.",
-     "limite": "É grande e pesado: com aumento de 25 vezes, precisa de tripé para a imagem não tremer."
+     "limite": "É grande e pesado: com aumento de 25 vezes, precisa de tripé para a imagem não tremer.",
+     "foto_stock": 14703927
     }
    ]
   },
@@ -35,7 +37,8 @@
      "nome": "Telescópio refrator azimutal 70 mm (Barsta)",
      "para": "Quem quer um primeiro telescópio sem gastar muito",
      "ve": "Crateras da Lua, os anéis de Saturno como um pequeno anel, as luas de Júpiter e as fases de Vênus.",
-     "limite": "Com 70 mm de abertura, nebulosas e galáxias aparecem fracas ou nem aparecem."
+     "limite": "Com 70 mm de abertura, nebulosas e galáxias aparecem fracas ou nem aparecem.",
+     "foto_stock": 11233016
     },
     {
      "asin": "B0HGP7LYM4",
@@ -43,14 +46,16 @@
      "para": "Quem quer ver além da Lua e dos planetas",
      "ve": "Tudo o que o de 70 mm mostra, com mais nitidez, e também aglomerados, a Nebulosa de Órion com estrutura e galáxias brilhantes como manchas. O kit vem com filtro lunar e adaptador para celular.",
      "limite": "O espelho precisa de alinhamento (colimação) de vez em quando, e o conjunto ocupa mais espaço.",
-     "selo": "Melhor custo-benefício"
+     "selo": "Melhor custo-benefício",
+     "foto_stock": 11237719
     },
     {
      "asin": "B0HGP399RF",
      "nome": "Telescópio Celestron StarSense Explorer LT 127AZ",
      "para": "Quem não sabe se localizar no céu",
      "ve": "Planetas, a Lua e objetos de céu profundo mais brilhantes. O aplicativo usa a câmera do celular para indicar para onde apontar.",
-     "limite": "Depende do celular encaixado no suporte, e é mais caro que telescópios de abertura parecida."
+     "limite": "Depende do celular encaixado no suporte, e é mais caro que telescópios de abertura parecida.",
+     "foto_stock": 11237778
     }
    ]
   },
@@ -65,35 +70,48 @@
      "para": "Quem quer o livro que fez gerações se apaixonarem por astronomia",
      "ve": "Da história da ciência às estrelas, contado com uma escrita que virou referência.",
      "limite": "Escrito em 1980: alguns números e descobertas mudaram desde então.",
-     "selo": "Clássico"
+     "selo": "Clássico",
+     "foto_stock": 13130591
     },
     {
      "asin": "8535931937",
      "nome": "Pálido ponto azul, de Carl Sagan",
      "para": "Quem gostou da foto da Terra tirada pela Voyager 1",
      "ve": "O lugar da humanidade no universo e o futuro da exploração espacial.",
-     "limite": "Mais reflexivo que técnico."
+     "limite": "Mais reflexivo que técnico.",
+     "foto_stock": 13130633
     },
     {
      "asin": "8580576466",
      "nome": "Uma breve história do tempo, de Stephen Hawking",
      "para": "Quem quer entender buracos negros e a origem do universo",
      "ve": "Big Bang, buracos negros, tempo e gravidade, sem fórmulas.",
-     "limite": "Alguns capítulos exigem calma e releitura."
+     "limite": "Alguns capítulos exigem calma e releitura.",
+     "foto_stock": 13130623
     },
     {
      "asin": "8551010255",
      "nome": "Breves respostas para grandes questões, de Stephen Hawking",
      "para": "Quem prefere capítulos curtos e diretos",
      "ve": "As perguntas que Hawking mais ouvia, respondidas por ele.",
-     "limite": "Mistura ciência com opinião pessoal, sinalizada no texto."
+     "limite": "Mistura ciência com opinião pessoal, sinalizada no texto.",
+     "foto_stock": 945393
     },
     {
      "asin": "8558890765",
      "nome": "A história do universo para quem tem pressa, de Colin Stuart",
      "para": "Quem quer um panorama rápido",
      "ve": "Do Big Bang às descobertas recentes, em linguagem leve.",
-     "limite": "Panorama: não aprofunda cada tema."
+     "limite": "Panorama: não aprofunda cada tema.",
+     "foto_stock": 297205839
+    },
+    {
+     "asin": "854220753X",
+     "nome": "Morte no buraco negro, de Neil deGrasse Tyson",
+     "para": "Quem gosta de astronomia com humor",
+     "ve": "Ensaios curtos sobre o universo, do Big Bang aos buracos negros, do astrofísico que apresentou a nova versão de Cosmos.",
+     "limite": "Coletânea de textos: alguns se repetem em tema.",
+     "foto_stock": 13130636
     }
    ]
   },
@@ -108,21 +126,24 @@
      "para": "Quem quer reconhecer constelações a olho nu",
      "ve": "Guia prático de astronomia observacional escrito por um pesquisador brasileiro: localizar planetas, estrelas e aglomerados, e saber quando acontecem eclipses e chuvas de meteoros.",
      "limite": "Foco em observação, não em teoria.",
-     "selo": "Autor brasileiro"
+     "selo": "Autor brasileiro",
+     "foto_stock": 27528381
     },
     {
      "asin": "8542302680",
      "nome": "Planetas e estrelas: guia prático de carta celeste, de Arjuna C. Panzera",
      "para": "Quem quer um mapa do céu na mão",
      "ve": "Carta celeste para identificar estrelas e planetas.",
-     "limite": "Confira a latitude indicada na descrição: cartas celestes são feitas para uma faixa de latitude."
+     "limite": "Confira a latitude indicada na descrição: cartas celestes são feitas para uma faixa de latitude.",
+     "foto_stock": 27071428
     },
     {
      "asin": "8576085097",
      "nome": "Astronomia para leigos",
      "para": "Quem está começando do zero",
      "ve": "Do que é cada objeto do céu a como escolher equipamento.",
-     "limite": "Panorama amplo: cada tema é tratado de forma introdutória."
+     "limite": "Panorama amplo: cada tema é tratado de forma introdutória.",
+     "foto_stock": 13130592
     }
    ]
   },
@@ -137,21 +158,24 @@
      "para": "Quem quer estudar astronomia a sério, em português",
      "ve": "Livro-texto brasileiro, do Sistema Solar à cosmologia, com a matemática.",
      "limite": "É um livro de curso: pede base de física e matemática do ensino médio.",
-     "selo": "Referência brasileira"
+     "selo": "Referência brasileira",
+     "foto_stock": 2767149
     },
     {
      "asin": "852120745X",
      "nome": "Curso de Física Básica, vol. 1: Mecânica (Moysés Nussenzveig)",
      "para": "Quem quer a base da física com profundidade",
      "ve": "Mecânica com rigor, usada em cursos de física no Brasil.",
-     "limite": "Usa cálculo desde o começo."
+     "limite": "Usa cálculo desde o começo.",
+     "foto_stock": 1145714
     },
     {
      "asin": "8521637225",
      "nome": "Fundamentos de Física, vol. 1: Mecânica (Halliday, Resnick e Walker)",
      "para": "Quem quer muitos exercícios resolvidos e explicação passo a passo",
      "ve": "O livro mais usado no primeiro ano de exatas.",
-     "limite": "Edição grande e cara: vale procurar usado."
+     "limite": "Edição grande e cara: vale procurar usado.",
+     "foto_stock": 13130589
     }
    ]
   },
@@ -165,24 +189,152 @@
      "nome": "Lanterna de luz vermelha",
      "para": "Qualquer observação noturna",
      "ve": "Luz vermelha não desfaz a adaptação dos olhos ao escuro, que leva uns 20 a 30 minutos para acontecer.",
-     "limite": "Só luz vermelha: não serve como lanterna comum."
+     "limite": "Só luz vermelha: não serve como lanterna comum.",
+     "foto_stock": 27071382
+    },
+    {
+     "asin": "B07ZYJ9R1N",
+     "nome": "Filtro lunar SVBONY SV139 (1,25\")",
+     "para": "Quem já tem telescópio",
+     "ve": "Reduz o brilho da Lua cheia, que ofusca, e deixa crateras e mares mais confortáveis de ver.",
+     "limite": "Só serve em ocular de 1,25 polegada, a medida mais comum em telescópios de entrada.",
+     "foto_stock": 1131689
     },
     {
      "asin": "B081ZM1SQD",
      "nome": "Suporte para fotografar com o celular no telescópio",
      "para": "Quem quer fotografar a Lua e planetas pela ocular",
      "ve": "Prende o celular alinhado à ocular de telescópio, binóculo ou microscópio.",
-     "limite": "Funciona melhor com a Lua; planetas exigem paciência para alinhar."
+     "limite": "Funciona melhor com a Lua; planetas exigem paciência para alinhar.",
+     "foto_stock": 11237722
     },
     {
      "asin": "B07MNTK9R8",
      "nome": "Globo celeste de 21 cm",
      "para": "Presente, sala de aula ou estudo",
      "ve": "As constelações vistas de fora da esfera celeste, ótimo para entender o movimento do céu.",
-     "limite": "Peça de estudo e decoração, não de campo."
+     "limite": "Peça de estudo e decoração, não de campo.",
+     "foto_stock": 27071428
+    }
+   ]
+  },
+  {
+   "id": "nerd",
+   "titulo": "Eu acho que você é nerd igual a mim",
+   "intro": "Nem tudo precisa ter telescópio. Jogos, LEGO e ficção científica que combinam com quem acompanha o canal, e os video games que estão entre os mais vendidos da Amazon agora.",
+   "itens": [
+    {
+     "asin": "B0D6HPB6SF",
+     "nome": "ASTRO BOT (PS5)",
+     "para": "Quem quer um jogo de plataforma no espaço, para qualquer idade",
+     "ve": "Um robozinho atravessando galáxias inteiras. Foi eleito o Jogo do Ano no The Game Awards 2024.",
+     "limite": "Exclusivo de PlayStation 5.",
+     "selo": "Espaço",
+     "foto_stock": 172749645
+    },
+    {
+     "asin": "B0CWS6WD53",
+     "nome": "Outer Wilds: Edição Arqueóloga (Switch)",
+     "para": "Quem gosta de mistério e de física",
+     "ve": "Um sistema solar em miniatura que acaba em 22 minutos, quando o Sol vira supernova, e recomeça. Você explora para descobrir por quê.",
+     "limite": "Não tem mapa nem lista de tarefas: dá para se perder (é de propósito).",
+     "selo": "Favorito nerd",
+     "foto_stock": 33263534
+    },
+    {
+     "asin": "B0B4KN54RQ",
+     "nome": "No Man's Sky (PS5)",
+     "para": "Quem quer explorar planetas sem fim",
+     "ve": "Um universo gerado por algoritmo, com mais de 18 quintilhões de planetas para pousar, explorar e construir.",
+     "limite": "Os planetas são inventados: a física é de jogo, não de astronomia.",
+     "foto_stock": 172749744
+    },
+    {
+     "asin": "B0GT2GZFHV",
+     "nome": "Starfield (PS5)",
+     "para": "Quem gosta de RPG longo com naves",
+     "ve": "RPG de exploração espacial da Bethesda: monte sua nave e viaje entre sistemas estelares.",
+     "limite": "Jogo grande e lento no começo; pede muitas horas.",
+     "foto_stock": 29342320
+    },
+    {
+     "asin": "B0H6KT2RWH",
+     "nome": "Grand Theft Auto VI (PS5)",
+     "para": "Quem quer o lançamento mais falado do ano",
+     "ve": "Entre os mais vendidos de video game da Amazon agora.",
+     "limite": "Nada de astronomia aqui, e a classificação indicativa é para adultos.",
+     "selo": "Em alta",
+     "foto_stock": 204891645
+    },
+    {
+     "asin": "B0FPGF9J2J",
+     "nome": "PlayStation 5 Slim Digital (pacote com ASTRO BOT e Gran Turismo 7)",
+     "para": "Quem ainda não tem console",
+     "ve": "O console com dois jogos no pacote, entre os mais vendidos da Amazon.",
+     "limite": "Versão digital: sem o leitor de disco (vendido à parte), os jogos são só da loja online.",
+     "selo": "Em alta",
+     "foto_stock": 33263506
+    },
+    {
+     "asin": "B0HKYBZRN1",
+     "nome": "Nintendo Switch 2 (pacote com EA Sports FC 27)",
+     "para": "Quem quer jogar em casa e fora dela",
+     "ve": "O console portátil da Nintendo com um jogo de futebol no pacote.",
+     "limite": "Os jogos de Switch 2 não rodam no Switch antigo.",
+     "foto_stock": 21782709
+    },
+    {
+     "asin": "B0FMS8BW3K",
+     "nome": "LEGO Technic NASA Artemis (42221)",
+     "para": "Quem gosta de montar e de foguete",
+     "ve": "Modelo do foguete SLS do programa Artemis, com 632 peças.",
+     "limite": "Peça de montar e expor, não de brincar de lançar.",
+     "selo": "Geek",
+     "foto_stock": 18459019
+    },
+    {
+     "asin": "B0CLD7TFNL",
+     "nome": "LEGO Módulo Lunar da Apollo 11",
+     "para": "Fã da corrida espacial",
+     "ve": "Réplica do módulo lunar Eagle, que pousou na Lua em 1969.",
+     "limite": "Caro e grande: é um projeto de fim de semana.",
+     "foto_stock": 18459034
+    },
+    {
+     "asin": "B0CS3V9Q1H",
+     "nome": "Projetor de galáxias com 12 discos",
+     "para": "Quarto, festa ou criança que ama o espaço",
+     "ve": "Projeta nebulosas, galáxias e estrelas no teto.",
+     "limite": "É decoração: as imagens não mostram o céu real.",
+     "foto_stock": 29304321
+    },
+    {
+     "asin": "6555651326",
+     "nome": "O guia do mochileiro das galáxias (edição ilustrada), de Douglas Adams",
+     "para": "Quem nunca leu (ou quer reler com ilustrações)",
+     "ve": "O clássico de humor e ficção científica de onde vem o famoso número 42.",
+     "limite": "Humor muito britânico: nem todo mundo embarca.",
+     "foto_stock": 13130596
+    },
+    {
+     "asin": "8580414482",
+     "nome": "Perdido em Marte, de Andy Weir",
+     "para": "Quem gosta de ciência resolvendo problema",
+     "ve": "Um astronauta preso em Marte sobrevivendo na base da química, da botânica e da engenharia.",
+     "limite": "Ficção: algumas licenças, como a tempestade do começo, que em Marte não teria essa força.",
+     "foto_stock": 13130625
+    },
+    {
+     "asin": "8535913513",
+     "nome": "Contato, de Carl Sagan",
+     "para": "Quem gosta de busca por vida fora da Terra",
+     "ve": "O romance de Sagan sobre o primeiro sinal de uma civilização extraterrestre, que virou filme em 1997.",
+     "limite": "Ficção científica com bastante discussão de ciência e fé.",
+     "foto_stock": 13130644
     }
    ]
   }
  ],
- "aprovado_em": "2026-11-24 (Bruno: 'Pode publicar')"
+ "aprovado_em": "2026-11-24 (Bruno: 'Pode publicar')",
+ "fotos": "Fotos ilustrativas licenciadas (Magnific/Freepik), uma por item, em arte/loja/<asin>.jpg. Trocar pelas fotos oficiais da Amazon (PA-API) quando a conta liberar a API (depois de 3 vendas)."
 }
