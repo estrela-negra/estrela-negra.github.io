@@ -1,0 +1,7 @@
+figma_layout*.html
+figma_sobre.html
+_gera_site_v*.py
+arte/grao_esc.jpg
+arte/grao_pp.jpg
+.DS_Store
+__pycache__/
