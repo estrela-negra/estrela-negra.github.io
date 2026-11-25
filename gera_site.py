@@ -8,6 +8,13 @@ from PIL import Image
 B = "/Users/porciuncula/Desktop/BRUNO/estrela-negra"; AQUI = os.path.dirname(os.path.abspath(__file__)); OUT = AQUI + "/docs/"
 URL = "https://estrela-negra.github.io/"; TODOS = "--todos" in sys.argv
 LOJA = json.load(open(AQUI + "/loja.json", encoding="utf-8")) if os.path.exists(AQUI + "/loja.json") else None
+JORNAL = sorted([json.load(open(f, encoding="utf-8")) for f in glob.glob(AQUI + "/jornal/20*.json")], key=lambda x: x["data"], reverse=True)
+MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
+DIAS = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"]
+def data_ext(iso, dia_semana=True):
+    d = datetime.date.fromisoformat(iso); t = "%d de %s de %d" % (d.day, MESES[d.month - 1], d.year)
+    return (DIAS[d.weekday()].capitalize() + ", " + t) if dia_semana else t
+def ed_url(n): return "jornal/%s-%s/" % (n["data"], n["slug"])
 COM_LOJA = bool(LOJA) and (LOJA.get("aprovado") or "--loja" in sys.argv)  # só publica com aprovação do Bruno
 IDS = {x["reels"]: x["id"] for x in json.load(open(B + "/motion/THUMBS_LUZ/TROCA_YOUTUBE.json")) if x["versao"] == "16:9"}
 IDS.update({"23": "yPL-Up9xJhc"})
@@ -251,6 +258,38 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
 """
 
 CSS += """
+/* ---------- jornal ---------- */
+.serif{font-family:'Newsreader',Georgia,serif}
+.jn{padding:96px 0 104px}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--tx);padding-bottom:14px;margin-bottom:34px;gap:20px}
+.mast .nome{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.01em;line-height:1}
+.mast .nome em{font-style:italic;color:var(--rx)}
+.mast .ed{font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--mu);text-align:right;line-height:1.8}
+.manchete{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:start}
+.chapeu{font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--rx)}
+.manchete h2,.art h1{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:46px;line-height:1.08;letter-spacing:-.015em;margin:14px 0 16px}
+.manchete h2 a:hover{color:var(--rx)}
+.fina{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:21px;line-height:1.45;color:#4A4652;margin:0 0 20px}
+.manchete .lide{font-size:16px;line-height:1.75;color:#3D3A44;margin:0 0 22px}
+.manchete figure,.art figure{margin:0}.manchete img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
+figcaption.cr{font-size:11px;color:var(--mu);margin-top:8px;line-height:1.5}
+.lermais{font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--rx);border-bottom:1px solid var(--rx);padding-bottom:3px}
+.anteriores{margin-top:44px;border-top:1px solid var(--ln);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
+.anteriores a{display:block;padding:18px 0;border-bottom:1px solid var(--ln)}.anteriores a:hover b{color:var(--rx)}
+.anteriores span{display:block;font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+.anteriores b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:19px;line-height:1.3}
+.art{max-width:760px;margin:0 auto;padding:72px 0 40px}
+.art .meta2{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:12px 0;margin:8px 0 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.art figure img{width:100%;max-height:520px;object-fit:cover;border-radius:4px}
+.art .corpo2 p{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.65;color:#25222B;margin:0 0 22px}
+.art .corpo2 p:first-child:first-letter{float:left;font-size:72px;line-height:.86;padding:6px 10px 0 0;color:var(--rx)}
+.certeza{border-left:3px solid var(--rx);padding:4px 0 4px 18px;margin:30px 0;font-size:15px;color:#3D3A44}
+.certeza b{display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--rx);margin-bottom:4px}
+.acervo{max-width:860px;margin:0 auto;padding:72px 0 100px}.acervo h3{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:28px;margin:44px 0 6px;border-bottom:3px double var(--tx);padding-bottom:8px}
+.acervo a{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--ln)}.acervo a:hover b{color:var(--rx)}
+.acervo time{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);padding-top:5px}
+.acervo b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:22px;line-height:1.3;display:block}.acervo i{font-style:normal;display:block;font-size:14px;color:var(--mu);margin-top:4px}
+""" + """
 /* ---------- v6 ---------- */
 ::selection{background:var(--rx);color:#fff}
 a,.bt,.it img,.ep,.foto img,.fotos img,.soc a{transition:all .25s ease}
@@ -311,6 +350,32 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 a.foto{display:block}a.foto:hover b{color:var(--rx)}
 .ficha li b{display:block;margin:0 0 2px}
 """
+CSS += """
+/* ---------- refino elegante (25/11) ---------- */
+body{font-size:16px;line-height:1.7;letter-spacing:.005em}
+.rot{font-size:11px;letter-spacing:.3em}
+.menu{gap:34px;font-size:11px;letter-spacing:.2em}
+.nav{height:78px}
+.bt{font-size:11px;letter-spacing:.22em;padding:15px 28px;box-shadow:0 6px 24px -8px rgba(135,98,243,.55)}
+.bt:hover{box-shadow:0 10px 30px -8px rgba(168,139,255,.7)}
+.marca-h span,.tit span,.bruno h2 span,.v-hero h1 span,.parceria h2 span,.ctaeq h3 span{text-shadow:0 0 18px rgba(168,139,255,.28)}
+.tit,.tit2{font-weight:300;letter-spacing:-.025em}
+.secao,.metodo,.cinza{padding-top:120px;padding-bottom:120px}
+.ultimo{padding:120px 0}
+.ultimo .nome{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;line-height:1.3}
+.ultimo .fig img,.ep.on,.ep:hover{box-shadow:0 20px 50px -20px rgba(10,9,14,.55)}
+.ep{border-color:rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+.ep:hover{border-color:rgba(168,139,255,.45)}
+.it .n,.ep p{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:18px;line-height:1.35}
+.foto .tl b{font-family:'Newsreader',Georgia,serif;font-weight:400}
+.texto p{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.7;color:#25222B}
+.lado{border-radius:6px}
+.cx,.pr{border-radius:8px}.cx{border-color:rgba(22,20,28,.1)}
+.pr h3{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:21px}
+.passos i{font-family:'Newsreader',Georgia,serif;font-weight:300}
+.ctaeq{border-radius:8px}
+.chips a,.filtros button{letter-spacing:.18em}
+"""
 MOB = """
 .w{padding:0 20px}.nav{height:64px}.nav .logo img{height:28px}.menu{display:none}
 .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:40px 0 0}.hero .img{height:260px}.marca-h{font-size:58px}
@@ -328,7 +393,7 @@ MOB = """
 .hero .img{min-height:260px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%)}
 .hero{padding:32px 0 48px}.numeros{gap:22px;flex-wrap:wrap}.numeros b{font-size:30px}
 .bt.lin{margin:12px 0 0}
-.trio{grid-template-columns:minmax(0,1fr)}.ctaeq{flex-direction:column;align-items:flex-start;padding:28px 22px}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
+.trio{grid-template-columns:minmax(0,1fr)}.manchete,.anteriores{grid-template-columns:minmax(0,1fr)}.mast{flex-direction:column;align-items:flex-start}.mast .ed{text-align:left}.mast .nome{font-size:34px}.manchete h2,.art h1{font-size:32px}.art .corpo2 p{font-size:19px}.acervo a{grid-template-columns:minmax(0,1fr);gap:4px}.ctaeq{flex-direction:column;align-items:flex-start;padding:28px 22px}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 """
 for f_ in ("hero_anel.jpg", "anel_pag.jpg", "feixe.jpg", "bruno_anel.jpg", "bruno_foto.jpg", "grao.png"): shutil.copy(AQUI + "/arte/" + f_, OUT + "img/" + f_)
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))
@@ -338,11 +403,11 @@ IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 
       "tt": '<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/></svg>'}
 SOC = '<div class="soc"><a href="%s" title="YouTube" aria-label="YouTube">%s</a><a href="%s" title="Instagram" aria-label="Instagram">%s</a><a href="%s" title="TikTok" aria-label="TikTok">%s</a></div>' % (YT, IC["yt"], INSTA, IC["ig"], TT, IC["tt"])
 def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
-    m = [("", "Início"), ("episodios/", "Episódios"), ("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
+    m = [("", "Início")] + ([("jornal/", "Jornal")] if JORNAL else []) + [("episodios/", "Episódios"), ("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
     menu = "".join('<a class="%s" href="%s%s">%s</a>' % ("on" if k == ativo else "", raiz, k, n) for k, n in m)
     return ("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:image" content="%s"><meta property="og:type" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="Estrela Negra"><meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="icon" href="%simg/icone.png"><link rel="stylesheet" href="%sestilo.css">%s</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="icon" href="%simg/icone.png"><link rel="stylesheet" href="%sestilo.css">%s</head><body>
 <div class="topo"><div class="w"><nav class="nav"><a class="logo" href="%s"><img src="%simg/logo.png" alt="Estrela Negra"></a><div class="menu">%s</div>%s<details class="mm"><summary aria-label="Menu"><i></i></summary><div class="gav">%s%s</div></details></nav></div>""" % (t, d, u, t, d, img, tipo, raiz, raiz, ld, raiz, raiz, menu, SOC, menu, SOC))
 def rodape(raiz):
     return """<footer class="rod"><div class="w"><div class="w1"><div><img src="%simg/logo.png" alt="Estrela Negra"><div>Astronomia com fonte: o que é certo, o que é debate<br>e de onde vem cada número.</div>%s</div><div class="plat"><a href="%s">YouTube</a><a href="%s">Instagram</a><a href="%s">TikTok</a></div><a class="bt" href="%scontato/">Entre em contato</a></div></div>
@@ -368,6 +433,10 @@ def topo_hero(rot, titulo, texto, arte, extra="", alt="420px"):
 desc0 = "Vídeos de astronomia com fonte: o que se sabe, o que está em debate e de onde vem cada número."
 h = [cabeca("Estrela Negra · astronomia com fonte", desc0, URL, OG["inicio"], "website", "", "")]
 h.append(topo_hero("Canal de astronomia", "Estrela<br><span>Negra</span>", "Buracos negros, estrelas, missões e descobertas. <b>O que já é certo, o que ainda está em debate e de onde vem cada número.</b>", "img/hero_anel.jpg", '<a class="bt" href="%s?sub_confirmation=1">Inscreva-se no canal</a><a class="bt lin" href="episodios/">Ver episódios</a><div class="numeros"><div><b>%d</b><span>Episódios</span></div><div><b>%d</b><span>Fontes citadas</span></div><div><b>1</b><span>Foto do céu por dia</span></div></div>' % (YT, len(DADOS), NFONTES), "620px"))
+if JORNAL:
+    n = JORNAL[0]; nimg = "jornal/img/%s.jpg" % n["data"]
+    ant = "".join('<a href="%s"><span>%s · %s</span><b>%s</b></a>' % (ed_url(x), data_ext(x["data"], False), e(x["chapeu"]), e(x["titulo"])) for x in JORNAL[1:4])
+    h.append('<div class="w"><section class="jn"><div class="mast"><div class="nome">O Estrela <em>Negra</em></div><div class="ed">%s<br>Edição nº %d · <a href="jornal/">Acervo</a></div></div><div class="manchete"><div><span class="chapeu">%s</span><h2><a href="%s">%s</a></h2><p class="fina">%s</p><p class="lide">%s</p><a class="lermais" href="%s">Ler a notícia completa</a></div><figure><a href="%s"><img src="%s" alt="%s"></a><figcaption class="cr">%s · %s</figcaption></figure></div>%s</section></div>' % (data_ext(n["data"]), len(JORNAL), e(n["chapeu"]), ed_url(n), e(n["titulo"]), e(n["linha_fina"]), e(corta(n["texto"][0], 320)), ed_url(n), ed_url(n), nimg, e(n["imagem"]["legenda"]), e(n["imagem"]["legenda"]), e(n["imagem"]["credito"]), '<div class="anteriores">%s</div>' % ant if ant else ""))
 if DADOS:
     d = DADOS[0]
     h.append('<div class="w"><section class="ultimo"><a class="fig" href="%s/"><img src="%s" alt="%s"></a><div><span class="rot">Último episódio</span><h2 class="tit">Confira o<br><span>último episódio</span></h2><p class="nome">%s</p><p>%s</p><div class="meta" style="margin-bottom:28px"><span class="tag" style="color:var(--rx)">%s</span><span>%d fontes conferidas</span></div><a class="bt" href="%s/">Assistir agora</a></div></section></div>' % (d["sl"], d["img"], e(d["titulo"]), e(d["titulo"]), e(corta(d["resumo"][0] if d["resumo"] else "", 260)), cat(d["titulo"]), len(d["fontes"]), d["sl"]))
@@ -494,12 +563,36 @@ if COM_LOJA:
         h.append('<section class="lj" id="%s"><span class="rot">%s</span><h2 class="tit2">%s</h2><p class="intro">%s</p><div class="g3l">%s</div></section>' % (sc["id"], "Equipamentos", destaca(sc["titulo"]), e(sc["intro"]), "".join('<div class="cx">%s</div>' % c for c in cards_)))
     h.append('<p class="aviso" style="margin:64px 0 100px">%s Os preços e a disponibilidade mudam na Amazon; confira na página do produto.</p></div>' % AV)
     h.append(rodape("../")); os.makedirs(OUT + "equipamentos", exist_ok=True); open(OUT + "equipamentos/index.html", "w", encoding="utf-8").write("\n".join(h))
+# ------------------------------------------------------------------ jornal: uma página por edição + acervo
+if JORNAL:
+    os.makedirs(OUT + "jornal/img", exist_ok=True)
+    for i_, n in enumerate(JORNAL):
+        src = AQUI + "/jornal/img/%s.jpg" % n["data"]
+        if os.path.exists(src): shutil.copy(src, OUT + "jornal/img/%s.jpg" % n["data"])
+        og = cartao("j_" + n["data"], "O Estrela Negra · " + data_ext(n["data"], False), n["titulo"], src)
+        ld = '<script type="application/ld+json">%s</script>' % json.dumps({"@context": "https://schema.org", "@type": "NewsArticle", "headline": n["titulo"], "description": n["linha_fina"], "datePublished": n["data"], "image": URL + "jornal/img/%s.jpg" % n["data"], "inLanguage": "pt-BR", "publisher": {"@type": "Organization", "name": "Estrela Negra"}, "author": {"@type": "Organization", "name": "Redação Estrela Negra"}}, ensure_ascii=False)
+        h = [cabeca(e(n["titulo"]) + " · O Estrela Negra", e(n["linha_fina"]), URL + ed_url(n), og, "article", "../../", "jornal/", ld), "</div>"]
+        fontes = "".join('<li><a href="%s" rel="nofollow">%s</a></li>' % (e(f["url"]), e(f["nome"])) for f in n["fontes"])
+        mais = JORNAL[i_ + 1] if i_ + 1 < len(JORNAL) else None; menos = JORNAL[i_ - 1] if i_ > 0 else None
+        nav = '<nav class="navv">%s%s</nav>' % ('<a href="../../%s"><span>← Edição anterior</span><b>%s</b></a>' % (ed_url(mais), e(mais["titulo"])) if mais else "<div></div>", '<a class="d" href="../../%s"><span>Próxima edição →</span><b>%s</b></a>' % (ed_url(menos), e(menos["titulo"])) if menos else "")
+        h.append('<div class="w"><article class="art"><div class="mast"><div class="nome">O Estrela <em>Negra</em></div><div class="ed">%s<br><a href="../">Acervo de edições</a></div></div><span class="chapeu">%s</span><h1>%s</h1><p class="fina">%s</p><div class="meta2"><span>Redação Estrela Negra</span><span>Fatos conferidos por revisão independente</span></div><figure><img src="../img/%s.jpg" alt="%s"><figcaption class="cr">%s · Imagem: %s (%s)</figcaption></figure><div class="corpo2" style="margin-top:34px">%s</div><p class="certeza"><b>Grau de certeza</b>%s</p><h2 class="tit2" style="font-size:26px;margin-top:40px">Fontes</h2><ol class="fontes">%s</ol>%s</article></div>' % (data_ext(n["data"]), e(n["chapeu"]), e(n["titulo"]), e(n["linha_fina"]), n["data"], e(n["imagem"]["legenda"]), e(n["imagem"]["legenda"]), e(n["imagem"]["credito"]), e(n["imagem"]["licenca"]), "".join("<p>%s</p>" % e(p) for p in n["texto"]), e(n["certeza"]), fontes, nav))
+        h.append(cta_eq("../../")); h.append(rodape("../../"))
+        os.makedirs(OUT + ed_url(n), exist_ok=True); open(OUT + ed_url(n) + "index.html", "w", encoding="utf-8").write("\n".join(h))
+    h = [cabeca("Acervo · O Estrela Negra", "Todas as edições do jornal diário de astronomia do Estrela Negra.", URL + "jornal/", cartao("jornal", "O Estrela Negra", "Uma notícia de astronomia por dia, com fonte", JORNAL[0] and AQUI + "/jornal/img/%s.jpg" % JORNAL[0]["data"]), "website", "../", "jornal/"), "</div>"]
+    blocos, mes = [], None
+    for n in JORNAL:
+        d_ = datetime.date.fromisoformat(n["data"]); m_ = "%s de %d" % (MESES[d_.month - 1].capitalize(), d_.year)
+        if m_ != mes: blocos.append("<h3>%s</h3>" % m_); mes = m_
+        blocos.append('<a href="../%s"><time>%d %s</time><span><b>%s</b><i>%s · %s</i></span></a>' % (ed_url(n), d_.day, MESES[d_.month - 1][:3], e(n["titulo"]), e(n["chapeu"]), e(n["linha_fina"])))
+    h.append('<div class="w"><section class="acervo"><div class="mast"><div class="nome">O Estrela <em>Negra</em></div><div class="ed">Acervo · %d edições<br>Uma notícia de astronomia por dia</div></div>%s</section></div>' % (len(JORNAL), "".join(blocos)))
+    h.append(rodape("../")); open(OUT + "jornal/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ /links (página do link da bio)
 dm = datetime.date.today().strftime("%d/%m")
 hojef = next((x for x in FOTOS if x.get("data") == dm), None) or (FOTOS[0] if FOTOS else None)
 og_l = cartao("links", "Estrela Negra", "Vídeos, fotos do céu e fontes num lugar só", L5 + "T1412_saturno_aneis_cassini.jpg")
 btn = []
 if DADOS: btn.append(('../%s/' % DADOS[0]["sl"], "Vídeo novo", DADOS[0]["titulo"], True))
+if JORNAL: btn.append(("../" + ed_url(JORNAL[0]), "Notícia do dia", JORNAL[0]["titulo"], False))
 if hojef: btn.append(('../fotos/%s/' % hojef["sl"], "Foto do céu de hoje", hojef["titulo"].split("(")[0].strip(), False))
 btn += [(YT + "?sub_confirmation=1", "YouTube", "Inscreva-se no canal", False), (TT, "TikTok", "@estrelanegra_p", False), (INSTA, "Instagram", "@estrelanegra_p", False),
         ("../episodios/", "Episódios", "Todos os vídeos, com transcrição e fontes", False), ("../fotos/", "Fotos do céu", "James Webb, Hubble e ESO, explicadas", False)] + ([("../equipamentos/", "Equipamentos", "Binóculos, telescópios e livros indicados", False)] if COM_LOJA else []) + [("../contato/", "Contato", "Dúvidas, temas e parcerias", False)]
@@ -518,7 +611,7 @@ open(OUT + "links/index.html", "w", encoding="utf-8").write("""<!doctype html><h
 .lk .soc{justify-content:center;margin:28px 0 18px;display:flex}.lk small{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mu2)}</style></head><body><main class="lk">
 <img class="av" src="../img/icone.png" alt="Estrela Negra"><h1>Estrela <span>Negra</span></h1><p class="bio">Astronomia com fonte: o que é certo, o que é debate e de onde vem cada número.</p>%s%s<small><a href="../">estrela-negra.github.io</a></small></main></body></html>""" % (URL, og_l, "".join('<a class="b%s" href="%s"><span>%s</span><b>%s</b></a>' % (" d" if dd else "", u, e(r), e(t)) for u, r, t, dd in btn), SOC))
 hoje = datetime.date.today().isoformat()
-urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
+urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "jornal/"] + [URL + ed_url(n) for n in JORNAL] if JORNAL else []) + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
 open(OUT + "sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, hoje) for u in urls) + "</urlset>")
 open(OUT + "robots.txt", "w").write("User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % URL); open(OUT + ".nojekyll", "w").write("")
 open(OUT + "google019414cc94055bb3.html", "w").write("google-site-verification: google019414cc94055bb3.html")  # Search Console (não apagar)
