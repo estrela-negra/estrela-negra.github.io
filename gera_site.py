@@ -6,7 +6,7 @@ uso: python3 gera_site.py [--todos]   (--todos ignora o filtro de vídeo públic
 import json, re, os, sys, html, shutil, unicodedata, urllib.request, datetime, glob
 from PIL import Image
 B = "/Users/porciuncula/Desktop/BRUNO/estrela-negra"; AQUI = os.path.dirname(os.path.abspath(__file__)); OUT = AQUI + "/docs/"
-URL = "https://bruno-porciuncula.github.io/estrelanegra/"; TODOS = "--todos" in sys.argv
+URL = "https://estrela-negra.github.io/"; TODOS = "--todos" in sys.argv
 IDS = {x["reels"]: x["id"] for x in json.load(open(B + "/motion/THUMBS_LUZ/TROCA_YOUTUBE.json")) if x["versao"] == "16:9"}
 IDS.update({"23": "yPL-Up9xJhc"})
 if os.path.exists(AQUI + "/ids_extra.json"): IDS.update(json.load(open(AQUI + "/ids_extra.json")))

@@ -1,6 +1,6 @@
 # Estrela Negra · site
 
-Site do canal de astronomia Estrela Negra: https://bruno-porciuncula.github.io/estrelanegra/
+Site do canal de astronomia Estrela Negra: https://estrela-negra.github.io/
 
 Publicado pelo GitHub Pages a partir da pasta `docs/` da branch `main`. Qualquer mudança enviada para essa pasta entra no ar em um ou dois minutos.
 
