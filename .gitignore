@@ -6,3 +6,5 @@ arte/grao_pp.jpg
 .DS_Store
 __pycache__/
 arte/loja/_orig/
+arte/loja/_produto/
+arte/loja/_jogos/

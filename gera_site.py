@@ -473,11 +473,14 @@ for i_, x in enumerate(FOTOS):
     h.append(rodape("../../")); os.makedirs(OUT + "fotos/" + x["sl"], exist_ok=True); open(OUT + "fotos/%s/index.html" % x["sl"], "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ equipamentos (Amazon Associados; só com aprovação)
 if COM_LOJA:
+    LIVROS_ = {"8535929886","8535931937","8580576466","8551010255","8558890765","854220753X","8578614437","8542302680","8576085097","8578614852","852120745X","8521637225","6555651326","8580414482","8535913513"}
+    JOGOS_ = {"B0B4KN54RQ","B0CWS6WD53","B0GT2GZFHV","B0H6KT2RWH","B0D6HPB6SF"}
+    SELO_IMG = {**{a: "Capa ilustrativa" for a in LIVROS_}, **{a: "Arte oficial do jogo" for a in JOGOS_}}
     TAG = LOJA["tag"]; AV = "Como associado da Amazon, o Estrela Negra ganha com compras qualificadas. O preço para você é o mesmo."
     og_e = cartao("equipamentos", "Equipamentos", "O que usar para olhar o céu, e o que ler", L5 + "T1412_saturno_aneis_cassini.jpg")
     h = [cabeca("Equipamentos · Estrela Negra", "Binóculos, telescópios, livros e acessórios de astronomia indicados pelo Estrela Negra, com o que cada um mostra e o limite de cada um.", URL + "equipamentos/", og_e, "website", "../", "equipamentos/")]
     h.append(topo_hero("Indicações do canal", "Para olhar<br><span>o céu</span>", "Binóculos, telescópios, livros e acessórios. Cada indicação diz para quem é, o que dá para ver e qual é o limite.", "../img/anel_pag.jpg"))
-    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV + " Fotos ilustrativas (Freepik): o produto real está na página da Amazon.", "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
+    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV + " Fotos de produto ilustrativas (Freepik) e capas de livro ilustrativas: o produto real está na página da Amazon. Artes dos jogos: divulgação oficial de Rockstar Games, Sony Interactive Entertainment, Hello Games, Mobius Digital e Bethesda.", "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
     for sc in LOJA["secoes"]:
         cards_ = []
         for it in sc["itens"]:
@@ -485,7 +488,7 @@ if COM_LOJA:
             fimg = AQUI + "/arte/loja/%s.jpg" % it["asin"]; im_html = ""
             if os.path.exists(fimg):
                 os.makedirs(OUT + "img/loja", exist_ok=True); shutil.copy(fimg, OUT + "img/loja/%s.jpg" % it["asin"])
-                im_html = '<a class="pi" href="%s" rel="sponsored nofollow noopener" target="_blank"><img src="../img/loja/%s.jpg" alt="" loading="lazy"><i>Foto ilustrativa</i></a>' % (u, it["asin"])
+                im_html = '<a class="pi" href="%s" rel="sponsored nofollow noopener" target="_blank"><img src="../img/loja/%s.jpg" alt="" loading="lazy"><i>%s</i></a>' % (u, it["asin"], SELO_IMG.get(it["asin"], "Foto ilustrativa"))
             cards_.append(im_html + '<div class="pr">%s<h3>%s</h3><dl><dt>Para quem</dt><dd>%s</dd><dt>O que dá para ver</dt><dd>%s</dd><dt class="l">Limite</dt><dd>%s</dd></dl><a class="bt" href="%s" rel="sponsored nofollow noopener" target="_blank">Ver na Amazon</a></div>' % ('<span class="sl">%s</span>' % e(it["selo"]) if it.get("selo") else "", e(it["nome"]), e(it["para"]), e(it["ve"]), e(it["limite"]), u))
         h.append('<section class="lj" id="%s"><span class="rot">%s</span><h2 class="tit2">%s</h2><p class="intro">%s</p><div class="g3l">%s</div></section>' % (sc["id"], "Equipamentos", destaca(sc["titulo"]), e(sc["intro"]), "".join('<div class="cx">%s</div>' % c for c in cards_)))
     h.append('<p class="aviso" style="margin:64px 0 100px">%s Os preços e a disponibilidade mudam na Amazon; confira na página do produto.</p></div>' % AV)
