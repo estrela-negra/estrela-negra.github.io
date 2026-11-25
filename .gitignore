@@ -8,3 +8,6 @@ __pycache__/
 arte/loja/_orig/
 arte/loja/_produto/
 arte/loja/_jogos/
+arte/loja/_capas/
+arte/loja/_oficial/
+arte/loja/_mock/

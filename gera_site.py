@@ -475,12 +475,13 @@ for i_, x in enumerate(FOTOS):
 if COM_LOJA:
     LIVROS_ = {"8535929886","8535931937","8580576466","8551010255","8558890765","854220753X","8578614437","8542302680","8576085097","8578614852","852120745X","8521637225","6555651326","8580414482","8535913513"}
     JOGOS_ = {"B0B4KN54RQ","B0CWS6WD53","B0GT2GZFHV","B0H6KT2RWH","B0D6HPB6SF"}
-    SELO_IMG = {**{a: "Capa ilustrativa" for a in LIVROS_}, **{a: "Arte oficial do jogo" for a in JOGOS_}}
+    OFICIAIS_ = {'B00DV6SI3Q', 'B003AM87Q4', 'B0HKYBZRN1', 'B07ZYJ9R1N', 'B0CLD7TFNL', 'B0FPGF9J2J', 'B0HGP399RF', 'B0FMS8BW3K', 'B0HGP7LYM4'}
+    SELO_IMG = {**{a: "Capa oficial" for a in LIVROS_}, **{a: "Arte oficial do jogo" for a in JOGOS_}, **{a: "Foto oficial do fabricante" for a in OFICIAIS_}}
     TAG = LOJA["tag"]; AV = "Como associado da Amazon, o Estrela Negra ganha com compras qualificadas. O preço para você é o mesmo."
     og_e = cartao("equipamentos", "Equipamentos", "O que usar para olhar o céu, e o que ler", L5 + "T1412_saturno_aneis_cassini.jpg")
     h = [cabeca("Equipamentos · Estrela Negra", "Binóculos, telescópios, livros e acessórios de astronomia indicados pelo Estrela Negra, com o que cada um mostra e o limite de cada um.", URL + "equipamentos/", og_e, "website", "../", "equipamentos/")]
     h.append(topo_hero("Indicações do canal", "Para olhar<br><span>o céu</span>", "Binóculos, telescópios, livros e acessórios. Cada indicação diz para quem é, o que dá para ver e qual é o limite.", "../img/anel_pag.jpg"))
-    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV + " Fotos de produto ilustrativas (Freepik) e capas de livro ilustrativas: o produto real está na página da Amazon. Artes dos jogos: divulgação oficial de Rockstar Games, Sony Interactive Entertainment, Hello Games, Mobius Digital e Bethesda.", "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
+    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV + " Fotos oficiais de Celestron, LEGO, Sony, Nintendo e SVBONY; demais fotos de produto ilustrativas (Freepik). Capas dos livros: divulgação das editoras (Companhia das Letras, Intrínseca, Planeta, Valentina, Livraria da Física, Editora UFMG, Alta Books, Blucher, LTC, Arqueiro), aplicadas em foto ilustrativa. Artes dos jogos: divulgação oficial de Rockstar Games, Sony Interactive Entertainment, Hello Games, Mobius Digital e Bethesda.", "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
     for sc in LOJA["secoes"]:
         cards_ = []
         for it in sc["itens"]:
