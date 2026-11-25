@@ -475,5 +475,6 @@ hoje = datetime.date.today().isoformat()
 urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
 open(OUT + "sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, hoje) for u in urls) + "</urlset>")
 open(OUT + "robots.txt", "w").write("User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % URL); open(OUT + ".nojekyll", "w").write("")
+open(OUT + "google019414cc94055bb3.html", "w").write("google-site-verification: google019414cc94055bb3.html")  # Search Console (não apagar)
 print("ok", len(DADOS), "vídeos +", len(FOTOS), "fotos + 5 páginas", "(PRÉVIA COM TODOS)" if TODOS else "")
 
