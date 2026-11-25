@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
 /* sobre */
 .secao{padding:110px 0}
 .fotos{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:48px}.fotos img{aspect-ratio:4/5;object-fit:cover;border-radius:8px}
-.fotos img:nth-child(3){box-shadow:0 0 0 1px var(--rxl),var(--glow)}
+
 .bruno{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .bruno h2{font-weight:300;font-size:64px;line-height:1;letter-spacing:-.03em;margin:18px 0 26px;color:var(--off)}.bruno h2 span{color:var(--rxl);text-shadow:0 0 30px rgba(168,139,255,.5)}
 .bruno p{color:var(--mu2);font-size:16px;margin:0 0 14px;max-width:480px}
@@ -135,7 +135,7 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .filtros button{font:inherit;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);background:transparent;border:1px solid var(--ln);border-radius:99px;padding:8px 16px;cursor:pointer;transition:all .2s}
 .filtros button:hover{border-color:var(--rx);color:var(--rx)}.filtros button.on{color:#fff;background:var(--rx);border-color:var(--rx);box-shadow:var(--glow)}
 .vazio{display:none;color:var(--mu);padding:40px 0}
-.foto img{transition:all .25s}.foto:hover img{box-shadow:0 0 0 1px var(--rxl),0 0 40px rgba(135,98,243,.4)}
+.foto img{transition:all .25s}.foto:hover img{opacity:.9}
 .lado{position:sticky;top:24px}
 .lado li a:hover{color:var(--off)}
 .texto .cap{scroll-margin-top:24px}
@@ -145,6 +145,10 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .rod .w1 img{height:48px}.rod .plat a:hover{color:var(--rxl)}
 .rod .w2 .w{gap:24px}
 .mm{display:none}
+.grande{margin:0;padding:0 0 64px;position:relative}.grande a{display:block;text-align:center}.grande img{display:inline-block;width:auto;max-width:100%;max-height:78vh;border-radius:10px;}
+.grande figcaption{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu2);margin-top:14px;text-align:center}.grande img{max-height:86vh;border-radius:4px}
+a.foto{display:block}a.foto:hover b{color:var(--rx)}
+.ficha li b{display:block;margin:0 0 2px}
 @media (max-width:820px){
 .w{padding:0 20px}.nav{height:64px}.nav .logo img{height:28px}.menu{display:none}
 .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:40px 0 0}.hero .img{height:260px}.marca-h{font-size:58px}
