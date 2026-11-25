@@ -1,0 +1,187 @@
+{
+ "aprovado": false,
+ "tag": "estrelanegr03-20",
+ "nota": "Página Equipamentos (Amazon Associados). Só vai ao ar com aprovado=true (decisão do Bruno). Sem preço e sem foto de produto: a Amazon proíbe preço desatualizado e imagem fora do SiteStripe/API. Conferir ASINs vivos na tarefa semanal.",
+ "secoes": [
+  {
+   "id": "comecar",
+   "titulo": "Por onde começar",
+   "intro": "O conselho mais repetido em clubes de astronomia: comece com um binóculo. Ele é fácil de usar, mostra muito do céu e continua útil mesmo depois que você comprar um telescópio.",
+   "itens": [
+    {
+     "asin": "B00DV6SI3Q",
+     "nome": "Binóculo Celestron Cometron 7x50",
+     "para": "Primeiro instrumento, para qualquer idade",
+     "ve": "Crateras e mares da Lua, as quatro maiores luas de Júpiter como pontinhos, as Plêiades e a Nebulosa de Órion como uma mancha.",
+     "limite": "Não mostra os anéis de Saturno nem detalhes de planetas: o aumento de 7 vezes é baixo para isso.",
+     "selo": "Mais indicado"
+    },
+    {
+     "asin": "B003AM87Q4",
+     "nome": "Binóculo Celestron SkyMaster 25x70",
+     "para": "Quem já tem um binóculo e quer ir mais fundo",
+     "ve": "Aglomerados de estrelas, cometas brilhantes e a Lua com muito mais detalhe.",
+     "limite": "É grande e pesado: com aumento de 25 vezes, precisa de tripé para a imagem não tremer."
+    }
+   ]
+  },
+  {
+   "id": "telescopios",
+   "titulo": "Primeiro telescópio",
+   "intro": "Abertura (o diâmetro da lente ou do espelho) é o número que mais importa: quanto maior, mais luz e mais detalhe. Desconfie de caixa que promete aumento de centenas de vezes.",
+   "itens": [
+    {
+     "asin": "B077KBN3T4",
+     "nome": "Telescópio refrator azimutal 70 mm (Barsta)",
+     "para": "Quem quer um primeiro telescópio sem gastar muito",
+     "ve": "Crateras da Lua, os anéis de Saturno como um pequeno anel, as luas de Júpiter e as fases de Vênus.",
+     "limite": "Com 70 mm de abertura, nebulosas e galáxias aparecem fracas ou nem aparecem."
+    },
+    {
+     "asin": "B0HGP7LYM4",
+     "nome": "Telescópio refletor Celestron AstroMaster 130AZ",
+     "para": "Quem quer ver além da Lua e dos planetas",
+     "ve": "Tudo o que o de 70 mm mostra, com mais nitidez, e também aglomerados, a Nebulosa de Órion com estrutura e galáxias brilhantes como manchas. O kit vem com filtro lunar e adaptador para celular.",
+     "limite": "O espelho precisa de alinhamento (colimação) de vez em quando, e o conjunto ocupa mais espaço.",
+     "selo": "Melhor custo-benefício"
+    },
+    {
+     "asin": "B0HGP399RF",
+     "nome": "Telescópio Celestron StarSense Explorer LT 127AZ",
+     "para": "Quem não sabe se localizar no céu",
+     "ve": "Planetas, a Lua e objetos de céu profundo mais brilhantes. O aplicativo usa a câmera do celular para indicar para onde apontar.",
+     "limite": "Depende do celular encaixado no suporte, e é mais caro que telescópios de abertura parecida."
+    }
+   ]
+  },
+  {
+   "id": "livros",
+   "titulo": "Livros de astronomia",
+   "intro": "Para entender o universo antes (e depois) de olhar para ele.",
+   "itens": [
+    {
+     "asin": "8535929886",
+     "nome": "Cosmos, de Carl Sagan",
+     "para": "Quem quer o livro que fez gerações se apaixonarem por astronomia",
+     "ve": "Da história da ciência às estrelas, contado com uma escrita que virou referência.",
+     "limite": "Escrito em 1980: alguns números e descobertas mudaram desde então.",
+     "selo": "Clássico"
+    },
+    {
+     "asin": "8535931937",
+     "nome": "Pálido ponto azul, de Carl Sagan",
+     "para": "Quem gostou da foto da Terra tirada pela Voyager 1",
+     "ve": "O lugar da humanidade no universo e o futuro da exploração espacial.",
+     "limite": "Mais reflexivo que técnico."
+    },
+    {
+     "asin": "8580576466",
+     "nome": "Uma breve história do tempo, de Stephen Hawking",
+     "para": "Quem quer entender buracos negros e a origem do universo",
+     "ve": "Big Bang, buracos negros, tempo e gravidade, sem fórmulas.",
+     "limite": "Alguns capítulos exigem calma e releitura."
+    },
+    {
+     "asin": "8551010255",
+     "nome": "Breves respostas para grandes questões, de Stephen Hawking",
+     "para": "Quem prefere capítulos curtos e diretos",
+     "ve": "As perguntas que Hawking mais ouvia, respondidas por ele.",
+     "limite": "Mistura ciência com opinião pessoal, sinalizada no texto."
+    },
+    {
+     "asin": "8558890765",
+     "nome": "A história do universo para quem tem pressa, de Colin Stuart",
+     "para": "Quem quer um panorama rápido",
+     "ve": "Do Big Bang às descobertas recentes, em linguagem leve.",
+     "limite": "Panorama: não aprofunda cada tema."
+    }
+   ]
+  },
+  {
+   "id": "observar",
+   "titulo": "Para aprender a observar",
+   "intro": "Saber onde olhar vale mais do que qualquer equipamento.",
+   "itens": [
+    {
+     "asin": "8578614437",
+     "nome": "Aprendendo a ler o céu, de Rodolfo Langhi",
+     "para": "Quem quer reconhecer constelações a olho nu",
+     "ve": "Guia prático de astronomia observacional escrito por um pesquisador brasileiro: localizar planetas, estrelas e aglomerados, e saber quando acontecem eclipses e chuvas de meteoros.",
+     "limite": "Foco em observação, não em teoria.",
+     "selo": "Autor brasileiro"
+    },
+    {
+     "asin": "8542302680",
+     "nome": "Planetas e estrelas: guia prático de carta celeste, de Arjuna C. Panzera",
+     "para": "Quem quer um mapa do céu na mão",
+     "ve": "Carta celeste para identificar estrelas e planetas.",
+     "limite": "Confira a latitude indicada na descrição: cartas celestes são feitas para uma faixa de latitude."
+    },
+    {
+     "asin": "8576085097",
+     "nome": "Astronomia para leigos",
+     "para": "Quem está começando do zero",
+     "ve": "Do que é cada objeto do céu a como escolher equipamento.",
+     "limite": "Panorama amplo: cada tema é tratado de forma introdutória."
+    }
+   ]
+  },
+  {
+   "id": "fisica",
+   "titulo": "Para estudar física",
+   "intro": "Os livros que estudantes de física e astronomia usam na graduação.",
+   "itens": [
+    {
+     "asin": "8578614852",
+     "nome": "Astronomia e Astrofísica (Kepler de Souza Oliveira Filho e Maria de Fátima Saraiva)",
+     "para": "Quem quer estudar astronomia a sério, em português",
+     "ve": "Livro-texto brasileiro, do Sistema Solar à cosmologia, com a matemática.",
+     "limite": "É um livro de curso: pede base de física e matemática do ensino médio.",
+     "selo": "Referência brasileira"
+    },
+    {
+     "asin": "852120745X",
+     "nome": "Curso de Física Básica, vol. 1: Mecânica (Moysés Nussenzveig)",
+     "para": "Quem quer a base da física com profundidade",
+     "ve": "Mecânica com rigor, usada em cursos de física no Brasil.",
+     "limite": "Usa cálculo desde o começo."
+    },
+    {
+     "asin": "8521637225",
+     "nome": "Fundamentos de Física, vol. 1: Mecânica (Halliday, Resnick e Walker)",
+     "para": "Quem quer muitos exercícios resolvidos e explicação passo a passo",
+     "ve": "O livro mais usado no primeiro ano de exatas.",
+     "limite": "Edição grande e cara: vale procurar usado."
+    }
+   ]
+  },
+  {
+   "id": "acessorios",
+   "titulo": "Acessórios de observação",
+   "intro": "Pequenas coisas que fazem diferença numa noite de céu.",
+   "itens": [
+    {
+     "asin": "B06X3SY4LG",
+     "nome": "Lanterna de luz vermelha",
+     "para": "Qualquer observação noturna",
+     "ve": "Luz vermelha não desfaz a adaptação dos olhos ao escuro, que leva uns 20 a 30 minutos para acontecer.",
+     "limite": "Só luz vermelha: não serve como lanterna comum."
+    },
+    {
+     "asin": "B081ZM1SQD",
+     "nome": "Suporte para fotografar com o celular no telescópio",
+     "para": "Quem quer fotografar a Lua e planetas pela ocular",
+     "ve": "Prende o celular alinhado à ocular de telescópio, binóculo ou microscópio.",
+     "limite": "Funciona melhor com a Lua; planetas exigem paciência para alinhar."
+    },
+    {
+     "asin": "B07MNTK9R8",
+     "nome": "Globo celeste de 21 cm",
+     "para": "Presente, sala de aula ou estudo",
+     "ve": "As constelações vistas de fora da esfera celeste, ótimo para entender o movimento do céu.",
+     "limite": "Peça de estudo e decoração, não de campo."
+    }
+   ]
+  }
+ ]
+}

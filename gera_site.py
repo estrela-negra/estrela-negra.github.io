@@ -7,6 +7,8 @@ import json, re, os, sys, html, shutil, unicodedata, urllib.request, datetime, g
 from PIL import Image
 B = "/Users/porciuncula/Desktop/BRUNO/estrela-negra"; AQUI = os.path.dirname(os.path.abspath(__file__)); OUT = AQUI + "/docs/"
 URL = "https://estrela-negra.github.io/"; TODOS = "--todos" in sys.argv
+LOJA = json.load(open(AQUI + "/loja.json", encoding="utf-8")) if os.path.exists(AQUI + "/loja.json") else None
+COM_LOJA = bool(LOJA) and (LOJA.get("aprovado") or "--loja" in sys.argv)  # só publica com aprovação do Bruno
 IDS = {x["reels"]: x["id"] for x in json.load(open(B + "/motion/THUMBS_LUZ/TROCA_YOUTUBE.json")) if x["versao"] == "16:9"}
 IDS.update({"23": "yPL-Up9xJhc"})
 if os.path.exists(AQUI + "/ids_extra.json"): IDS.update(json.load(open(AQUI + "/ids_extra.json")))
@@ -289,6 +291,15 @@ a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
 .rod .w1 img{height:48px}.rod .plat a:hover{color:var(--rxl)}
 .rod .w2 .w{gap:24px}
 .mm{display:none}
+.aviso{border:1px solid var(--ln);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--mu);margin:0 0 8px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 8px}.chips a{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border:1px solid var(--ln);border-radius:99px;padding:8px 16px}.chips a:hover{border-color:var(--rx);color:var(--rx)}
+.lj{padding:72px 0 8px;scroll-margin-top:16px}.lj .intro{color:var(--mu);max-width:720px;margin:14px 0 36px;font-size:16px}
+.g3l{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pr{display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:14px;padding:26px;background:rgba(255,255,255,.35);transition:all .25s}.pr:hover{border-color:var(--rx);box-shadow:0 0 0 1px var(--rx)}
+.pr .sl{align-self:flex-start;font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:var(--rx);border-radius:99px;padding:5px 10px;margin-bottom:14px;box-shadow:var(--glow)}
+.pr h3{font-weight:500;font-size:19px;line-height:1.3;margin:0 0 16px}
+.pr dl{margin:0 0 22px;font-size:14px;line-height:1.55;color:#3D3A44;flex:1}.pr dt{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--rx);margin:12px 0 3px}.pr dt.l{color:var(--mu)}.pr dd{margin:0}
+.pr .bt{text-align:center}
 .grande{margin:0;padding:0 0 64px;position:relative}.grande a{display:block;text-align:center}.grande img{display:inline-block;width:auto;max-width:100%;max-height:78vh;border-radius:10px;}
 .grande figcaption{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu2);margin-top:14px;text-align:center}.grande img{max-height:86vh;border-radius:4px}
 a.foto{display:block}a.foto:hover b{color:var(--rx)}
@@ -311,7 +322,7 @@ MOB = """
 .hero .img{min-height:260px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%)}
 .hero{padding:32px 0 48px}.numeros{gap:22px;flex-wrap:wrap}.numeros b{font-size:30px}
 .bt.lin{margin:12px 0 0}
-.trio{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
+.trio{grid-template-columns:minmax(0,1fr)}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 """
 for f_ in ("hero_anel.jpg", "anel_pag.jpg", "feixe.jpg", "bruno_anel.jpg", "bruno_foto.jpg", "grao.png"): shutil.copy(AQUI + "/arte/" + f_, OUT + "img/" + f_)
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))
@@ -321,7 +332,7 @@ IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 
       "tt": '<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/></svg>'}
 SOC = '<div class="soc"><a href="%s" title="YouTube" aria-label="YouTube">%s</a><a href="%s" title="Instagram" aria-label="Instagram">%s</a><a href="%s" title="TikTok" aria-label="TikTok">%s</a></div>' % (YT, IC["yt"], INSTA, IC["ig"], TT, IC["tt"])
 def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
-    m = [("", "Início"), ("episodios/", "Episódios"), ("fotos/", "Fotos do céu"), ("sobre/", "Sobre"), ("contato/", "Contato")]
+    m = [("", "Início"), ("episodios/", "Episódios"), ("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
     menu = "".join('<a class="%s" href="%s%s">%s</a>' % ("on" if k == ativo else "", raiz, k, n) for k, n in m)
     return ("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:image" content="%s"><meta property="og:type" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="Estrela Negra"><meta name="twitter:card" content="summary_large_image">
@@ -448,6 +459,21 @@ for i_, x in enumerate(FOTOS):
     outras = [y for y in FOTOS if y is not x][i_ % max(1, len(FOTOS) - 4):][:4] or FOTOS[:4]
     h.append('<section class="cinza escuro" style="text-align:left"><div class="w"><span class="rot">Continue</span><h2 class="tit">Mais fotos <span>do céu</span></h2><div class="g4" style="margin-top:40px">%s</div></div></section>' % "".join('<a class="it" href="../%s/"><img src="../../img/fc_%02d.jpg" alt="%s" loading="lazy" style="aspect-ratio:1"><p class="n">%s</p><p class="s">%s</p></a>' % (y["sl"], y["k"], e(y["titulo"]), e(y["titulo"]), e(y["tag"].split("·")[-1].strip().title())) for y in outras))
     h.append(rodape("../../")); os.makedirs(OUT + "fotos/" + x["sl"], exist_ok=True); open(OUT + "fotos/%s/index.html" % x["sl"], "w", encoding="utf-8").write("\n".join(h))
+# ------------------------------------------------------------------ equipamentos (Amazon Associados; só com aprovação)
+if COM_LOJA:
+    TAG = LOJA["tag"]; AV = "Como associado da Amazon, o Estrela Negra ganha com compras qualificadas. O preço para você é o mesmo."
+    og_e = cartao("equipamentos", "Equipamentos", "O que usar para olhar o céu, e o que ler", L5 + "T1412_saturno_aneis_cassini.jpg")
+    h = [cabeca("Equipamentos · Estrela Negra", "Binóculos, telescópios, livros e acessórios de astronomia indicados pelo Estrela Negra, com o que cada um mostra e o limite de cada um.", URL + "equipamentos/", og_e, "website", "../", "equipamentos/")]
+    h.append(topo_hero("Indicações do canal", "Para olhar<br><span>o céu</span>", "Binóculos, telescópios, livros e acessórios. Cada indicação diz para quem é, o que dá para ver e qual é o limite.", "../img/anel_pag.jpg"))
+    h.append('<div class="w"><div style="padding-top:56px"><p class="aviso">%s</p><div class="chips">%s</div></div>' % (AV, "".join('<a href="#%s">%s</a>' % (sc["id"], e(sc["titulo"])) for sc in LOJA["secoes"])))
+    for sc in LOJA["secoes"]:
+        cards_ = []
+        for it in sc["itens"]:
+            u = "https://www.amazon.com.br/dp/%s?tag=%s" % (it["asin"], TAG)
+            cards_.append('<div class="pr">%s<h3>%s</h3><dl><dt>Para quem</dt><dd>%s</dd><dt>O que dá para ver</dt><dd>%s</dd><dt class="l">Limite</dt><dd>%s</dd></dl><a class="bt" href="%s" rel="sponsored nofollow noopener" target="_blank">Ver na Amazon</a></div>' % ('<span class="sl">%s</span>' % e(it["selo"]) if it.get("selo") else "", e(it["nome"]), e(it["para"]), e(it["ve"]), e(it["limite"]), u))
+        h.append('<section class="lj" id="%s"><span class="rot">%s</span><h2 class="tit2">%s</h2><p class="intro">%s</p><div class="g3l">%s</div></section>' % (sc["id"], "Equipamentos", destaca(sc["titulo"]), e(sc["intro"]), "".join(cards_)))
+    h.append('<p class="aviso" style="margin:64px 0 100px">%s Os preços e a disponibilidade mudam na Amazon; confira na página do produto.</p></div>' % AV)
+    h.append(rodape("../")); os.makedirs(OUT + "equipamentos", exist_ok=True); open(OUT + "equipamentos/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ /links (página do link da bio)
 dm = datetime.date.today().strftime("%d/%m")
 hojef = next((x for x in FOTOS if x.get("data") == dm), None) or (FOTOS[0] if FOTOS else None)
@@ -456,7 +482,7 @@ btn = []
 if DADOS: btn.append(('../%s/' % DADOS[0]["sl"], "Vídeo novo", DADOS[0]["titulo"], True))
 if hojef: btn.append(('../fotos/%s/' % hojef["sl"], "Foto do céu de hoje", hojef["titulo"].split("(")[0].strip(), False))
 btn += [(YT + "?sub_confirmation=1", "YouTube", "Inscreva-se no canal", False), (TT, "TikTok", "@estrelanegra_p", False), (INSTA, "Instagram", "@estrelanegra_p", False),
-        ("../episodios/", "Episódios", "Todos os vídeos, com transcrição e fontes", False), ("../fotos/", "Fotos do céu", "James Webb, Hubble e ESO, explicadas", False), ("../contato/", "Contato", "Dúvidas, temas e parcerias", False)]
+        ("../episodios/", "Episódios", "Todos os vídeos, com transcrição e fontes", False), ("../fotos/", "Fotos do céu", "James Webb, Hubble e ESO, explicadas", False)] + ([("../equipamentos/", "Equipamentos", "Binóculos, telescópios e livros indicados", False)] if COM_LOJA else []) + [("../contato/", "Contato", "Dúvidas, temas e parcerias", False)]
 os.makedirs(OUT + "links")
 open(OUT + "links/index.html", "w", encoding="utf-8").write("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Estrela Negra · links</title><meta name="description" content="Vídeos, fotos do céu e fontes do canal de astronomia Estrela Negra."><link rel="canonical" href="%slinks/"><meta property="og:title" content="Estrela Negra"><meta property="og:description" content="Vídeos, fotos do céu e fontes num lugar só."><meta property="og:image" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="../img/icone.png"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../estilo.css">
 <style>body{background:var(--esc) url(../img/grao.png) repeat;color:var(--off);min-height:100vh}.lk{max-width:520px;margin:0 auto;padding:56px 20px 64px;text-align:center;position:relative}
@@ -472,7 +498,7 @@ open(OUT + "links/index.html", "w", encoding="utf-8").write("""<!doctype html><h
 .lk .soc{justify-content:center;margin:28px 0 18px;display:flex}.lk small{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mu2)}</style></head><body><main class="lk">
 <img class="av" src="../img/icone.png" alt="Estrela Negra"><h1>Estrela <span>Negra</span></h1><p class="bio">Astronomia com fonte: o que é certo, o que é debate e de onde vem cada número.</p>%s%s<small><a href="../">estrela-negra.github.io</a></small></main></body></html>""" % (URL, og_l, "".join('<a class="b%s" href="%s"><span>%s</span><b>%s</b></a>' % (" d" if dd else "", u, e(r), e(t)) for u, r, t, dd in btn), SOC))
 hoje = datetime.date.today().isoformat()
-urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
+urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
 open(OUT + "sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, hoje) for u in urls) + "</urlset>")
 open(OUT + "robots.txt", "w").write("User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % URL); open(OUT + ".nojekyll", "w").write("")
 open(OUT + "google019414cc94055bb3.html", "w").write("google-site-verification: google019414cc94055bb3.html")  # Search Console (não apagar)
