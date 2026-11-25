@@ -1,4 +1,4 @@
-"""Site do Estrela Negra (GitHub Pages) · v4 (24/11/2026): segue a referência do site antigo do Bruno (cabeçalho e rodapé escuros, título em caixa alta com palavra em roxo, seções brancas).
+"""Site do Estrela Negra (GitHub Pages) · v6 (24/11/2026, refinado: ícones, menu no celular, filtros reais, sem carrossel falso) · base v4: segue a referência do site antigo do Bruno (cabeçalho e rodapé escuros, título em caixa alta com palavra em roxo, seções brancas).
 Uma página por vídeo PÚBLICO (oEmbed = 200), com vídeo, o número do vídeo, capítulos, grau de certeza, transcrição e fontes.
 Dados: motion/reels_NN/05_YOUTUBE/METADADOS_YOUTUBE.md · scripts/motion/tempos/tts/rNN.txt · motion/THUMBS_LUZ/TROCA_YOUTUBE.json (+ ids_extra.json)
 · miniaturas THUMB_LUZ_NN_16x9.jpg · número/rótulo da tabela V de scripts/thumbs/thumbs_luz.py · artes do Instagram (FOTO_DO_CEU).
@@ -24,6 +24,11 @@ def secao(md, ini, ate=("##", "🔎", "📚", "🖼", "Identidade visual", "#"))
         out.append(l)
     return "\n".join(out).strip()
 def e(s): return html.escape(s)
+def corta(t, n):
+    """corta no fim de frase (ou palavra) antes de n caracteres, sem deixar palavra pela metade"""
+    if len(t) <= n: return t
+    c = t[:n]; k = max(c.rfind(". "), c.rfind("? "), c.rfind("! "))
+    return c[:k + 1] if k > n * .5 else c[:c.rfind(" ")].rstrip(",;:") + "…"
 def seloclasse(t):
     u = t.upper()
     return "c" if ("CONFIRM" in u or "CONSENSO" in u) else "f" if "FORTE" in u else "d" if "DEBATE" in u else "h" if ("HIPÓTESE" in u or "HIPOTESE" in u) else "p"
@@ -75,8 +80,10 @@ recorte(B + "/motion/reels_23/00_IMAGENS/c01_lua_cruzando_terra_dscovr.jpg", OUT
 recorte(B + "/motion/INSTAGRAM/FOTO_DO_CEU/img/f05_jupiter_webb.jpg", OUT + "img/parceria.jpg", w=700)
 recorte(B + "/motion/apresentacao_2026/00_IMAGENS/bruno_1.png", OUT + "img/bruno.jpg", box=(70, 40, 578, 548), w=640)
 lg = Image.open(B + "/assets/marca/original_2020/logo_estrela_negra_transparente.png").convert("RGBA"); lg.thumbnail((520, 520)); lg.save(OUT + "img/logo.png")
+ic = Image.open(B + "/assets/marca/original_2020/logo_estrela_negra_transparente.png").convert("RGBA"); ic = ic.crop(ic.getbbox()); q = max(ic.size); fu = Image.new("RGBA", (q, q), (10, 9, 14, 255)); fu.alpha_composite(ic, ((q - ic.width) // 2, (q - ic.height) // 2)); fu.resize((180, 180), Image.LANCZOS).save(OUT + "img/icone.png")
 import numpy as np
 a_ = np.array(lg); br = (a_[..., 0] > 200) & (a_[..., 1] > 200) & (a_[..., 2] > 200); a_[br, 0:3] = (18, 16, 22); Image.fromarray(a_).save(OUT + "img/logo_escuro.png")
+FILT_JS = '<script>document.querySelectorAll(".filtros").forEach(function(f){var bs=f.querySelectorAll("button"),its=document.querySelectorAll(f.dataset.alvo);bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.classList.toggle("on",x===b)});var v=b.dataset.f,n=0;its.forEach(function(i){var ok=!v||(i.dataset.c||"").indexOf(v)>-1;i.style.display=ok?"":"none";if(ok)n++});var z=document.querySelector(".vazio");if(z)z.style.display=n?"none":"block"}})})</script>'
 NFONTES = sum(len(d["fontes"]) for d in DADOS)
 # ------------------------------------------------------------------ estilo
 CSS = """:root{--esc:#0A090E;--esc2:#060509;--gr:#16141C;--pp:#EEEBE6;--off:#F1EEE9;--tx:#16141C;--mu:#6F6B77;--mu2:#9C98A5;--ln:#DCD8D2;--lnd:#25222D;--rx:#8762F3;--rxl:#A88BFF;--glow:0 0 28px rgba(135,98,243,.55)}
@@ -187,6 +194,48 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
 .rod .w2 .sim{width:10px;height:10px;border-radius:50%;background:var(--rxl);box-shadow:0 0 12px var(--rxl)}
 """
 
+CSS += """
+/* ---------- v6 ---------- */
+::selection{background:var(--rx);color:#fff}
+a,.bt,.it img,.ep,.foto img,.fotos img,.soc a{transition:all .25s ease}
+a:focus-visible{outline:2px solid var(--rxl);outline-offset:3px}
+.topo{position:relative}
+.nav{position:relative;z-index:5}
+.nav .logo img{height:44px}
+.menu a:hover{color:var(--off)}
+.soc a{width:36px;height:36px}.soc a svg{width:15px;height:15px;fill:currentColor}
+.soc a:hover{border-color:var(--rxl);color:var(--rxl);box-shadow:0 0 18px rgba(168,139,255,.45)}
+.bt:hover{background:var(--rxl);box-shadow:0 0 36px rgba(168,139,255,.7);transform:translateY(-1px)}
+.bt.esc:hover{background:var(--tx);color:var(--off)}.escuro .bt.esc:hover,.lado .bt.esc:hover{background:var(--off);color:var(--esc)}
+.bt.lin{background:transparent;border:1px solid var(--lnd);color:var(--off);box-shadow:none;margin-left:12px}.bt.lin:hover{border-color:var(--rxl);color:var(--rxl);background:transparent}
+.hero{position:relative;padding:56px 0 72px}
+.rod{border-top:1px solid var(--lnd)}
+.hero .img{-webkit-mask-image:radial-gradient(ellipse 62% 70% at 60% 50%,#000 42%,transparent 72%);mask-image:radial-gradient(ellipse 62% 70% at 60% 50%,#000 42%,transparent 72%);min-height:420px}
+.hero .lead{max-width:470px}
+.numeros{display:flex;gap:44px;margin-top:48px;padding-top:26px;border-top:1px solid var(--lnd)}
+.numeros b{display:block;font-weight:300;font-size:40px;line-height:1;letter-spacing:-.02em;color:var(--off)}.numeros span{display:block;margin-top:8px;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--mu2)}
+.ultimo .fig{position:relative;display:block}.ultimo .fig:after{content:"";position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(135,98,243,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/30px no-repeat;box-shadow:var(--glow);opacity:0;transform:scale(.85);transition:all .25s}
+.ultimo .fig:hover:after{opacity:1;transform:none}.ultimo .fig:hover img{box-shadow:0 0 0 1px var(--rxl),0 0 80px rgba(135,98,243,.5)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;text-align:left}
+.ep{opacity:1}.ep:hover{border-color:var(--rxl);box-shadow:var(--glow);transform:translateY(-4px)}
+.ep .s{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--rxl);margin:0 6px 6px}
+.it{display:block}.it:hover img{box-shadow:0 0 0 1px var(--rxl),0 0 40px rgba(135,98,243,.45);transform:translateY(-4px)}.it:hover .n{color:var(--rx)}.escuro .it:hover .n{color:var(--rxl)}
+.metodo{padding:110px 0}.metodo .passos{margin-top:56px}.metodo .passos div{border-color:var(--lnd);color:var(--mu2)}.metodo .passos i{color:var(--rxl);text-shadow:0 0 24px rgba(168,139,255,.5)}.metodo .passos b{color:var(--off)}
+.fotos a{display:block;overflow:hidden;border-radius:8px}.fotos a:hover img{transform:scale(1.05)}.fotos img:nth-child(3){box-shadow:none}
+.filtros button{font:inherit;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);background:transparent;border:1px solid var(--ln);border-radius:99px;padding:8px 16px;cursor:pointer;transition:all .2s}
+.filtros button:hover{border-color:var(--rx);color:var(--rx)}.filtros button.on{color:#fff;background:var(--rx);border-color:var(--rx);box-shadow:var(--glow)}
+.vazio{display:none;color:var(--mu);padding:40px 0}
+.foto img{transition:all .25s}.foto:hover img{box-shadow:0 0 0 1px var(--rxl),0 0 40px rgba(135,98,243,.4)}
+.lado{position:sticky;top:24px}
+.lado li a:hover{color:var(--off)}
+.texto .cap{scroll-margin-top:24px}
+.fontes a{text-decoration:underline;text-decoration-color:rgba(135,98,243,.35);text-underline-offset:3px}
+.navv{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:56px}.navv a{border:1px solid var(--ln);border-radius:10px;padding:20px 22px}.navv a:hover{border-color:var(--rx)}.navv span{display:block;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--rx);margin-bottom:6px}.navv b{font-weight:500;font-size:15px;line-height:1.35}.navv a.d{text-align:right}
+.v-hero.so{grid-template-columns:minmax(0,1fr)}.v-hero.so>div{max-width:820px}
+.rod .w1 img{height:48px}.rod .plat a:hover{color:var(--rxl)}
+.rod .w2 .w{gap:24px}
+.mm{display:none}
+"""
 MOB = """
 .w{padding:0 20px}.nav{height:64px}.nav .logo img{height:28px}.menu{display:none}
 .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:40px 0 0}.hero .img{height:260px}.marca-h{font-size:58px}
@@ -195,22 +244,34 @@ MOB = """
 .g4,.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}.fotos{grid-template-columns:repeat(2,1fr)}.fotos img:nth-child(n+5){display:none}
 .tit,.tit2{font-size:34px}.bruno h2{font-size:44px}.contato .form{padding:44px 20px}.contato h2{font-size:38px}.parceria h2{font-size:40px}.circ{width:260px;height:260px}
 .v-hero{padding:40px 0 80px}.v-hero h1{font-size:34px}.v-hero .num b{font-size:72px}.corpo{grid-template-columns:minmax(0,1fr);gap:40px}.passos{grid-template-columns:minmax(0,1fr)}
-.rod .w1{grid-template-columns:minmax(0,1fr);gap:24px}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
+.rod .w1{grid-template-columns:minmax(0,1fr);gap:24px}
+.soc{display:none}.mm{display:block;position:relative}.mm summary{list-style:none;cursor:pointer;width:42px;height:42px;border:1px solid var(--lnd);border-radius:50%;display:flex;align-items:center;justify-content:center}.mm summary::-webkit-details-marker{display:none}
+.mm summary i,.mm summary i:before,.mm summary i:after{display:block;width:16px;height:1.5px;background:var(--off);position:relative}.mm summary i:before,.mm summary i:after{content:"";position:absolute;left:0}.mm summary i:before{top:-5px}.mm summary i:after{top:5px}
+.mm[open] summary{border-color:var(--rxl)}.mm .gav{position:absolute;right:0;top:52px;width:240px;background:var(--esc);border:1px solid var(--lnd);border-radius:12px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mm .gav a{display:block;padding:13px 14px;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu2);border-radius:8px}.mm .gav a.on{color:var(--off);background:var(--gr)}
+.mm .gav .soc{display:flex;padding:12px 14px 6px}
+.hero .img{min-height:260px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 45%,transparent 80%)}
+.hero{padding:32px 0 48px}.numeros{gap:22px;flex-wrap:wrap}.numeros b{font-size:30px}
+.bt.lin{margin:12px 0 0}
+.trio{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 """
 for f_ in ("hero_anel.jpg", "anel_pag.jpg", "feixe.jpg", "bruno_anel.jpg", "bruno_foto.jpg", "grao.png"): shutil.copy(AQUI + "/arte/" + f_, OUT + "img/" + f_)
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))
 YT = "https://www.youtube.com/@estrelanegra_p"; INSTA = "https://www.instagram.com/estrelanegra_p/"; TT = "https://www.tiktok.com/@estrelanegra_p"
-SOC = '<div class="soc"><a href="%s" title="YouTube">YT</a><a href="%s" title="Instagram">IG</a><a href="%s" title="TikTok">TT</a></div>' % (YT, INSTA, TT)
+IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>',
+      "ig": '<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>',
+      "tt": '<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/></svg>'}
+SOC = '<div class="soc"><a href="%s" title="YouTube" aria-label="YouTube">%s</a><a href="%s" title="Instagram" aria-label="Instagram">%s</a><a href="%s" title="TikTok" aria-label="TikTok">%s</a></div>' % (YT, IC["yt"], INSTA, IC["ig"], TT, IC["tt"])
 def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
     m = [("", "Início"), ("episodios/", "Episódios"), ("fotos/", "Fotos do céu"), ("sobre/", "Sobre"), ("contato/", "Contato")]
     menu = "".join('<a class="%s" href="%s%s">%s</a>' % ("on" if k == ativo else "", raiz, k, n) for k, n in m)
     return ("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:image" content="%s"><meta property="og:type" content="%s">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="%sestilo.css">%s</head><body>
-<div class="topo"><div class="w"><nav class="nav"><a class="logo" href="%s"><img src="%simg/logo.png" alt="Estrela Negra"></a><div class="menu">%s</div>%s</nav></div>""" % (t, d, u, t, d, img, tipo, raiz, ld, raiz, raiz, menu, SOC))
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"><link rel="icon" href="%simg/icone.png"><link rel="stylesheet" href="%sestilo.css">%s</head><body>
+<div class="topo"><div class="w"><nav class="nav"><a class="logo" href="%s"><img src="%simg/logo.png" alt="Estrela Negra"></a><div class="menu">%s</div>%s<details class="mm"><summary aria-label="Menu"><i></i></summary><div class="gav">%s%s</div></details></nav></div>""" % (t, d, u, t, d, img, tipo, raiz, raiz, ld, raiz, raiz, menu, SOC, menu, SOC))
 def rodape(raiz):
-    return """<footer class="rod"><div class="w"><div class="w1"><div><img src="%simg/logo.png" alt="Estrela Negra"><div>Estrela Negra · astronomia com fonte</div>%s</div><div class="plat"><a href="%s">YouTube</a><a href="%s">Instagram</a><a href="%s">TikTok</a></div><a class="bt" href="%scontato/">Entre em contato</a></div></div>
-<div class="w2"><div class="w"><span>Estrela Negra © 2026 · todos os direitos reservados · identidade visual, animação e locução: Bruno Porciúncula (com auxílio da Inteligência da Anthropic)</span><span class="sim"></span></div></div></footer></body></html>""" % (raiz, SOC, YT, INSTA, TT, raiz)
+    return """<footer class="rod"><div class="w"><div class="w1"><div><img src="%simg/logo.png" alt="Estrela Negra"><div>Astronomia com fonte: o que é certo, o que é debate<br>e de onde vem cada número.</div>%s</div><div class="plat"><a href="%s">YouTube</a><a href="%s">Instagram</a><a href="%s">TikTok</a></div><a class="bt" href="%scontato/">Entre em contato</a></div></div>
+<div class="w2"><div class="w"><span>Estrela Negra © 2026 · feito por Bruno Porciúncula</span><span>Imagens: NASA · ESA · ESO e créditos em cada página</span><span class="sim"></span></div></div></footer></body></html>""" % (raiz, SOC, YT, INSTA, TT, raiz)
 def destaca(t):
     p = t.split(); k = 2 if len(p) > 3 and len(p[-1]) < 5 else 1
     return e(" ".join(p[:-k])) + ' <span>%s</span>' % e(" ".join(p[-k:]))
@@ -222,26 +283,27 @@ def cat(t):
     return "Universo"
 def ytseg(t): a, b = t.split(":"); return int(a) * 60 + int(b)
 def it(d, raiz):
-    return '<a class="it" href="%s%s/"><img src="%s%s" alt="%s" loading="lazy"><p class="n">%s</p><p class="s">%s · %d fontes</p></a>' % (raiz, d["sl"], raiz, d["img"], e(d["titulo"]), e(d["titulo"]), cat(d["titulo"]), len(d["fontes"]))
+    return '<a class="it" data-c="%s" href="%s%s/"><img src="%s%s" alt="%s" loading="lazy"><p class="n">%s</p><p class="s">%s · %d fontes</p></a>' % (cat(d["titulo"]), raiz, d["sl"], raiz, d["img"], e(d["titulo"]), e(d["titulo"]), cat(d["titulo"]), len(d["fontes"]))
 def topo_hero(rot, titulo, texto, arte, extra="", alt="420px"):
-    return '<div class="w"><section class="hero" style="min-height:%s"><div><span class="rot">%s</span><h1 class="marca-h">%s</h1>%s%s</div><div class="img" style="background-image:url(%s)"></div></section></div></div>' % (alt, rot, titulo, '<p>%s</p>' % texto if texto else "", extra, arte)
+    return '<div class="w"><section class="hero" style="min-height:%s"><div><span class="rot">%s</span><h1 class="marca-h">%s</h1>%s%s</div><div class="img" style="background-image:url(%s)"></div></section></div></div>' % (alt, rot, titulo, '<p class="lead">%s</p>' % texto if texto else "", extra, arte)
 # ------------------------------------------------------------------ início
 desc0 = "Vídeos de astronomia com fonte: o que se sabe, o que está em debate e de onde vem cada número."
 h = [cabeca("Estrela Negra · astronomia com fonte", desc0, URL, URL + "img/hero_anel.jpg", "website", "", "")]
-h.append(topo_hero("Canal de astronomia", "Estrela<br><span>Negra</span>", "Buracos negros, estrelas, missões e descobertas. <b>O que já é certo, o que ainda está em debate e de onde vem cada número.</b>", "img/hero_anel.jpg", '<a class="bt" href="%s?sub_confirmation=1">Inscreva-se no canal</a>' % YT, "560px"))
+h.append(topo_hero("Canal de astronomia", "Estrela<br><span>Negra</span>", "Buracos negros, estrelas, missões e descobertas. <b>O que já é certo, o que ainda está em debate e de onde vem cada número.</b>", "img/hero_anel.jpg", '<a class="bt" href="%s?sub_confirmation=1">Inscreva-se no canal</a><a class="bt lin" href="episodios/">Ver episódios</a><div class="numeros"><div><b>%d</b><span>Episódios</span></div><div><b>%d</b><span>Fontes citadas</span></div><div><b>1</b><span>Foto do céu por dia</span></div></div>' % (YT, len(DADOS), NFONTES), "620px"))
 if DADOS:
     d = DADOS[0]
-    h.append('<div class="w"><section class="ultimo"><div class="fig"><img src="%s" alt="%s"></div><div><span class="rot">Último episódio</span><h2 class="tit">Confira o<br><span>último episódio</span></h2><p class="nome">%s</p><p>%s</p><div class="meta" style="margin-bottom:28px"><span class="tag" style="color:var(--rx)">%s</span><span>%d fontes conferidas</span></div><a class="bt" href="%s/">Assistir agora</a></div></section></div>' % (d["img"], e(d["titulo"]), e(d["titulo"]), e((d["resumo"][0] if d["resumo"] else "")[:240]), cat(d["titulo"]), len(d["fontes"]), d["sl"]))
+    h.append('<div class="w"><section class="ultimo"><a class="fig" href="%s/"><img src="%s" alt="%s"></a><div><span class="rot">Último episódio</span><h2 class="tit">Confira o<br><span>último episódio</span></h2><p class="nome">%s</p><p>%s</p><div class="meta" style="margin-bottom:28px"><span class="tag" style="color:var(--rx)">%s</span><span>%d fontes conferidas</span></div><a class="bt" href="%s/">Assistir agora</a></div></section></div>' % (d["sl"], d["img"], e(d["titulo"]), e(d["titulo"]), e(corta(d["resumo"][0] if d["resumo"] else "", 260)), cat(d["titulo"]), len(d["fontes"]), d["sl"]))
 if len(DADOS) > 3:
     tres = DADOS[1:4]
-    h.append('<section class="cinza escuro"><div class="w"><span class="rot">Episódios</span><h2 class="tit c">Últimos <span>episódios</span></h2><a class="bt esc" href="episodios/">Ver todos</a><div class="carro">%s</div><div class="pontos"><i></i><i class="r"></i><i></i></div></div></section>' % "".join('<a class="ep%s" href="%s/"><img src="%s" alt="%s"><p>%s</p></a>' % (" on" if k == 1 else "", x["sl"], x["img"], e(x["titulo"]), e(x["titulo"])) for k, x in enumerate(tres)))
-h.append('<div class="w"><section class="secao c"><span class="rot">Instagram</span><h2 class="tit c">Uma foto do céu <span>por dia</span></h2><p style="color:var(--mu);margin:16px 0 0">Imagens dos telescópios James Webb, Hubble e ESO, explicadas.</p><div class="fotos">%s</div><p style="margin-top:44px"><a class="bt" href="%s">Seguir @estrelanegra_p</a></p></section></div>' % ("".join('<img src="%s" alt="Foto de telescópio" loading="lazy">' % x for x in IG[:5]), INSTA))
+    h.append('<section class="cinza escuro"><div class="w"><span class="rot">Episódios</span><h2 class="tit c">Últimos <span>episódios</span></h2><a class="bt esc" href="episodios/">Ver todos</a><div class="trio">%s</div></div></section>' % "".join('<a class="ep" href="%s/"><img src="%s" alt="%s" loading="lazy"><p>%s</p><p class="s">%s · %d fontes</p></a>' % (x["sl"], x["img"], e(x["titulo"]), e(x["titulo"]), cat(x["titulo"]), len(x["fontes"])) for x in tres))
+h.append('<div class="w"><section class="secao c"><span class="rot">Instagram</span><h2 class="tit c">Uma foto do céu <span>por dia</span></h2><p style="color:var(--mu);margin:16px 0 0">Imagens dos telescópios James Webb, Hubble e ESO, explicadas.</p><div class="fotos">%s</div><p style="margin-top:44px"><a class="bt" href="%s">Seguir @estrelanegra_p</a><a class="bt esc" style="margin-left:12px" href="fotos/">Ver as explicações</a></p></section></div>' % ("".join('<a href="fotos/"><img src="%s" alt="Foto de telescópio" loading="lazy"></a>' % x for x in IG[:5]), INSTA))
+h.append('<section class="escuro"><div class="w"><div class="metodo"><span class="rot">Como a gente checa</span><h2 class="tit">Toda frase <span>tem fonte</span></h2><div class="passos"><div><i>01</i><b>Fonte primária</b>Agências espaciais, observatórios e artigos científicos, com link em cada episódio.</div><div><i>02</i><b>Revisão independente</b>Um segundo revisor confere o roteiro frase a frase antes da gravação.</div><div><i>03</i><b>Grau de certeza</b>Consenso, evidência forte, debate ou hipótese: cada vídeo diz qual é.</div></div></div></div></section>')
 h.append(rodape("")); open(OUT + "index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ episódios
 os.makedirs(OUT + "episodios")
 h = [cabeca("Episódios · Estrela Negra", desc0, URL + "episodios/", URL + "img/anel_pag.jpg", "website", "../", "episodios/")]
 h.append(topo_hero("%d vídeos · %d fontes" % (len(DADOS), NFONTES), "Todos os<br><span>episódios</span>", "Cada vídeo com transcrição, grau de certeza e fontes.", "../img/anel_pag.jpg"))
-h.append('<div class="w"><section class="lista"><span class="rot">Lista</span><h2 class="tit2">Lista de <span style="color:var(--rx)">episódios</span></h2><div class="filtros"><span class="on">Todos</span>%s</div><div class="g4">%s</div><div class="pontos"><i></i><i class="r"></i></div></section></div>' % ("".join("<span>%s</span>" % n for n, _ in CAT), "".join(it(d, "../") for d in DADOS)))
+h.append('<div class="w"><section class="lista"><span class="rot">Lista</span><h2 class="tit2">Lista de <span style="color:var(--rx)">episódios</span></h2><div class="filtros" data-alvo=".g4 .it"><button class="on" data-f="">Todos</button>%s</div><div class="g4">%s</div><p class="vazio">Ainda não tem episódio público neste tema. Em breve.</p></section></div>' % ("".join('<button data-f="%s">%s</button>' % (n, n) for n, _ in CAT), "".join(it(d, "../") for d in DADOS)) + FILT_JS)
 h.append(rodape("../")); open(OUT + "episodios/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ fotos do céu
 FC = json.load(open(B + "/motion/INSTAGRAM/FOTO_DO_CEU/foto_do_ceu.json", encoding="utf-8"))
@@ -253,16 +315,16 @@ for k, x in enumerate(FC):
     cx, cy = int(x.get("fx", .5) * W_), int(x.get("fy", .5) * H_); l_ = min(max(0, cx - s_ // 2), W_ - s_); t_ = min(max(0, cy - s_ // 2), H_ - s_)
     im = im.crop((l_, t_, l_ + s_, t_ + s_)); im.thumbnail((560, 560)); im.save(OUT + "img/fc_%02d.jpg" % k, quality=84)
     tel = x["tag"].split("·")[-1].strip().title()
-    cards.append('<div class="foto"><img src="../img/fc_%02d.jpg" alt="%s" loading="lazy"><div class="tl"><b>%s</b><span class="tag" style="color:var(--rx)">%s</span></div><p>%s %s</p><p class="cr">Imagem: %s</p></div>' % (k, e(x["titulo"]), e(x["num"]), e(tel), e(x["l1"].rstrip('.') + '.'), e(x["l2"].rstrip('.') + '.'), e(x["cred"])))
+    cards.append('<div class="foto" data-c="%s"><img src="../img/fc_%02d.jpg" alt="%s" loading="lazy"><div class="tl"><b>%s</b><span class="tag" style="color:var(--rx)">%s</span></div><p>%s %s</p><p class="cr">Imagem: %s</p></div>' % (e(x["tag"].upper()), k, e(x["titulo"]), e(x["num"]), e(tel), e(x["l1"].rstrip('.') + '.'), e(x["l2"].rstrip('.') + '.'), e(x["cred"])))
 h = [cabeca("Fotos do céu · Estrela Negra", "Fotos dos telescópios James Webb, Hubble, ESO e outros, explicadas.", URL + "fotos/", URL + "img/fc_00.jpg", "website", "../", "fotos/")]
 h.append('<div class="w"><section class="hero" style="min-height:420px"><div><span class="rot">James Webb · Hubble · ESO</span><h1 class="marca-h" style="font-size:84px">Fotos<br><span>do céu</span></h1><p>As imagens mais bonitas dos telescópios, explicadas: o que é cada parte, a que distância está e o que as cores querem dizer.</p></div><div class="img" style="background-image:url(../img/fc_00.jpg)"></div></section></div></div>')
-h.append('<div class="w"><section class="lista"><span class="rot">Galeria</span><h2 class="tit2">Uma foto por dia, <span style="color:var(--rx)">explicada</span></h2><div class="filtros"><span class="on">Todas</span><span>James Webb</span><span>Hubble</span><span>ESO</span><span>Outros</span></div><div class="g3">%s</div></section></div>' % "".join(cards))
+h.append('<div class="w"><section class="lista"><span class="rot">Galeria</span><h2 class="tit2">Uma foto por dia, <span style="color:var(--rx)">explicada</span></h2><div class="filtros" data-alvo=".g3 .foto"><button class="on" data-f="">Todas</button><button data-f="WEBB">James Webb</button><button data-f="HUBBLE">Hubble</button><button data-f="ESO">ESO</button><button data-f="CHANDRA">Chandra</button></div><div class="g3">%s</div></section></div>' % "".join(cards) + FILT_JS)
 h.append(rodape("../")); open(OUT + "fotos/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ sobre
 os.makedirs(OUT + "sobre")
 h = [cabeca("Sobre · Estrela Negra", desc0, URL + "sobre/", URL + "img/bruno_foto.jpg", "website", "../", "sobre/")]
 h.append(topo_hero("Sobre o canal", "Astronomia<br><span>com fonte</span>", "Um canal sobre o universo que diz o que é certo, o que é debate e o que é hipótese.", "../img/sobre.jpg"))
-h.append('<div class="w"><section class="secao c"><span class="rot">Galeria</span><h2 class="tit c">O céu visto pelos <span>telescópios</span></h2><div class="fotos">%s</div><div class="pontos"><i></i><i class="r"></i></div></section></div>' % "".join('<img src="../%s" alt="Foto de telescópio" loading="lazy">' % x for x in IG[:5]))
+h.append('<div class="w"><section class="secao c"><span class="rot">Galeria</span><h2 class="tit c">O céu visto pelos <span>telescópios</span></h2><div class="fotos">%s</div></section></div>' % "".join('<img src="../%s" alt="Foto de telescópio" loading="lazy">' % x for x in IG[:5]))
 h.append('<section class="escuro"><div class="w"><div class="secao bruno"><div><span class="rot">Quem faz</span><h2>Bruno<br><span>Porciúncula.</span></h2><p>Designer e editor de vídeo, estudou Física na UFSCar e é apaixonado por astronomia desde criança, quando maratonava documentários sobre o espaço na TV.</p><p>O Estrela Negra nasceu como podcast e hoje é um canal de vídeo sobre o universo, com identidade visual, animação e locução feitas por ele.</p><p style="margin-top:28px"><a class="bt" href="%s?sub_confirmation=1">Assista o canal</a></p></div><div class="ft"><img src="../img/bruno_foto.jpg" alt="Bruno Porciúncula"></div></div></div></section>' % YT)
 h.append('<div class="w"><section class="secao porque"><div><span class="rot">Por que assistir</span><h2 class="tit">Por que assistir o<br><span>Estrela Negra?</span></h2><p style="margin-top:28px"><a class="bt" href="../episodios/">Ver episódios</a></p></div><div><p>Cada vídeo explica um assunto do universo do jeito que se conta para um amigo, sem deixar de lado o rigor: toda afirmação tem fonte, e o vídeo diz com que grau de certeza a ciência sabe o que está sendo contado.</p><div class="passos"><div><i>01</i><b>Fonte primária</b>Agências, observatórios e artigos científicos, com link.</div><div><i>02</i><b>Revisão independente</b>Um segundo revisor confere o roteiro frase a frase.</div><div><i>03</i><b>Grau de certeza</b>Hipótese é dita como hipótese; previsão, como previsão.</div></div></div></section></div>')
 h.append(rodape("../")); open(OUT + "sobre/index.html", "w", encoding="utf-8").write("\n".join(h))
@@ -277,8 +339,8 @@ for d in DADOS:
     desc = (d["resumo"][0] if d["resumo"] else d["titulo"])[:155]
     ld = '<script type="application/ld+json">%s</script>' % json.dumps({"@context": "https://schema.org", "@type": "VideoObject", "name": d["titulo"], "description": desc, "thumbnailUrl": URL + d["img"], "embedUrl": "https://www.youtube.com/embed/" + d["vid"], "contentUrl": "https://youtu.be/" + d["vid"], "inLanguage": "pt-BR"}, ensure_ascii=False)
     h = [cabeca(e(d["titulo"]) + " · Estrela Negra", e(desc), URL + d["sl"] + "/", URL + d["img"], "article", "../", "episodios/", ld)]
-    num = '<div class="num"><b>%s</b><span class="rot">%s</span></div>' % (e(d["num"]), e(d["rot"])) if d["num"] else "<div></div>"
-    h.append('<div class="w"><section class="v-hero"><div><span class="rot">%s · %d fontes</span><h1>%s</h1>%s</div>%s</section></div></div>' % (cat(d["titulo"]), len(d["fontes"]), destaca(d["titulo"]), '<p>%s</p>' % e(d["resumo"][0][:300]) if d["resumo"] else "", num))
+    num = '<div class="num"><b>%s</b><span class="rot">%s</span></div>' % (e(d["num"]), e(d["rot"])) if d["num"] else ""
+    h.append('<div class="w"><section class="v-hero%s">' % ("" if num else " so") + '<div><span class="rot">%s · %d fontes</span><h1>%s</h1>%s</div>%s</section></div></div>' % (cat(d["titulo"]), len(d["fontes"]), destaca(d["titulo"]), '<p>%s</p>' % e(corta(d["resumo"][0], 340)) if d["resumo"] else "", num))
     h.append('<div class="w"><div class="player"><iframe src="https://www.youtube-nocookie.com/embed/%s" title="%s" loading="lazy" allowfullscreen></iframe></div><div class="corpo"><article class="texto">' % (d["vid"], e(d["titulo"])))
     if len(d["resumo"]) > 1: h += ["<p>%s</p>" % e(p) for p in d["resumo"][1:]]
     if d["transc"]:
@@ -288,6 +350,8 @@ for d in DADOS:
             h.append("<p>%s</p>" % e(p))
     if d["fontes"]: h.append('<h2>Fontes</h2><ol class="fontes">' + "".join("<li>%s</li>" % re.sub(r"(https?://\S+)", r'<a href="\1" rel="nofollow">\1</a>', e(f)) for f in d["fontes"]) + "</ol>")
     if d["imgs"]: h.append('<p style="font-size:12px;color:var(--mu);margin-top:24px">Imagens: %s</p>' % e(d["imgs"]))
+    i_ = DADOS.index(d); ant = DADOS[i_ + 1] if i_ + 1 < len(DADOS) else None; prox = DADOS[i_ - 1] if i_ > 0 else None
+    if ant or prox: h.append('<nav class="navv">%s%s</nav>' % ('<a href="../%s/"><span>← Episódio anterior</span><b>%s</b></a>' % (ant["sl"], e(ant["titulo"])) if ant else "<div></div>", '<a class="d" href="../%s/"><span>Próximo episódio →</span><b>%s</b></a>' % (prox["sl"], e(prox["titulo"])) if prox else ""))
     h.append('</article><aside class="lado">')
     if d["caps"]: h.append("<h4>Capítulos</h4><ul>" + "".join('<li><a href="https://youtu.be/%s?t=%d"><b>%s</b>%s</a></li>' % (d["vid"], ytseg(t), e(t), e(n)) for t, n in d["caps"]) + "</ul>")
     cs = certezas(d["cert"])
