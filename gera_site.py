@@ -75,6 +75,25 @@ for nn in sorted(IDS, key=int):
     num, rot = NUM.get(nn, ("", []))
     DADOS.append(dict(nn=int(nn), vid=vid, titulo=titulo, resumo=resumo, caps=caps, cert=cert, fontes=fontes, imgs=imgs, transc=transc, sl=sl, img="img/%s.jpg" % sl, num=num, rot=" ".join(rot).capitalize()))
 DADOS.sort(key=lambda d: -d["nn"])
+# ------------------------------------------------------------------ matérias: site/materias/<slug>.md (cabeçalho "chave: valor", linha ---, corpo com "## " intertítulos e "## Fontes" com "- nome: URL")
+# endereço ESTÁVEL /materias/<slug>/ (o slug vem do arquivo, não do título; é o endereço do CTA no fim dos vídeos). Só publica se o vídeo da pasta reels_NN estiver público.
+def le_materia(p):
+    cab, _, corpo = open(p, encoding="utf-8").read().partition("\n---\n")
+    m = dict(l.split(": ", 1) for l in cab.strip().split("\n") if ": " in l)
+    if "slug" not in m or "reels" not in m: return None
+    corpo, _, fon = corpo.partition("\n## Fontes")
+    m["blocos"] = [("h2", b[3:].strip()) if b.startswith("## ") else ("p", b.replace("\n", " ")) for b in [x.strip() for x in corpo.split("\n\n") if x.strip()]]
+    m["fontes"] = []
+    for l in fon.split("\n"):
+        l = l.strip()
+        if not l.startswith("- "): continue
+        u = re.search(r"(https?://\S+)$", l[2:]); m["fontes"].append((l[2:u.start() + 2].strip().rstrip(":").strip() if u else l[2:], u.group(1) if u else ""))
+    m["nn"] = int(m["reels"]); return m
+MATERIAS = []
+for f in sorted(glob.glob(AQUI + "/materias/*.md")):
+    m = le_materia(f); d = next((x for x in DADOS if m and x["nn"] == m["nn"]), None)
+    if m and d: m["d"] = d; d["mat"] = m; MATERIAS.append(m)
+MATERIAS.sort(key=lambda m: -m["nn"])
 IG = []
 for k, f in enumerate(sorted(glob.glob(B + "/motion/INSTAGRAM/FOTO_DO_CEU/img/f*.jpg"))[:10]):
     im = Image.open(f).convert("RGB"); s_ = min(im.size); im = im.crop(((im.width - s_) // 2, (im.height - s_) // 2, (im.width + s_) // 2, (im.height + s_) // 2)); im.thumbnail((900, 900), Image.LANCZOS); im.save(OUT + "img/ceu_%d.jpg" % k, quality=90); IG.append("img/ceu_%d.jpg" % k)
@@ -376,6 +395,19 @@ body{font-size:16px;line-height:1.7;letter-spacing:.005em}
 .ctaeq{border-radius:8px}
 .chips a,.filtros button{letter-spacing:.18em}
 """
+CSS += """
+/* ---------- matérias (26/11) ---------- */
+.art .corpo2 h2{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:29px;line-height:1.2;letter-spacing:-.01em;margin:46px 0 16px;color:var(--tx)}
+.art .corpo2 em{font-style:italic}
+.art .tit2.m{font-size:26px;margin:44px 0 16px}
+.art .player{margin-top:0}
+.art .bts{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 0}
+.lermat{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid var(--ln);border-left:3px solid var(--rx);border-radius:8px;padding:20px 24px;margin:0 0 44px}
+.lermat span{display:block;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--rx);margin-bottom:4px}.lermat b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:20px;line-height:1.3}
+.lermat:hover{border-color:var(--rx)}.lermat i{font-style:normal;color:var(--rx);font-size:22px}
+.menu a{white-space:nowrap}
+@media (min-width:821px) and (max-width:1180px){.menu{gap:18px;letter-spacing:.12em}.nav>.soc{display:none}}
+"""
 MOB = """
 .w{padding:0 20px}.nav{height:64px}.nav .logo img{height:28px}.menu{display:none}
 .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:40px 0 0}.hero .img{height:260px}.marca-h{font-size:58px}
@@ -403,7 +435,7 @@ IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 
       "tt": '<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/></svg>'}
 SOC = '<div class="soc"><a href="%s" title="YouTube" aria-label="YouTube">%s</a><a href="%s" title="Instagram" aria-label="Instagram">%s</a><a href="%s" title="TikTok" aria-label="TikTok">%s</a></div>' % (YT, IC["yt"], INSTA, IC["ig"], TT, IC["tt"])
 def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
-    m = [("", "Início")] + ([("jornal/", "Jornal")] if JORNAL else []) + [("episodios/", "Episódios"), ("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
+    m = [("", "Início")] + ([("jornal/", "Jornal")] if JORNAL else []) + [("episodios/", "Episódios")] + ([("materias/", "Matérias")] if MATERIAS else []) + [("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
     menu = "".join('<a class="%s" href="%s%s">%s</a>' % ("on" if k == ativo else "", raiz, k, n) for k, n in m)
     return ("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:image" content="%s"><meta property="og:type" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="Estrela Negra"><meta name="twitter:card" content="summary_large_image">
@@ -494,6 +526,7 @@ for d in DADOS:
     num = '<div class="num"><b>%s</b><span class="rot">%s</span></div>' % (e(d["num"]), e(d["rot"])) if d["num"] else ""
     h.append('<div class="w"><section class="v-hero%s">' % ("" if num else " so") + '<div><span class="rot">%s · %d fontes</span><h1>%s</h1>%s</div>%s</section></div></div>' % (cat(d["titulo"]), len(d["fontes"]), destaca(d["titulo"]), '<p>%s</p>' % e(corta(d["resumo"][0], 340)) if d["resumo"] else "", num))
     h.append('<div class="w"><div class="player"><iframe src="https://www.youtube-nocookie.com/embed/%s" title="%s" loading="lazy" allowfullscreen></iframe></div><div class="corpo"><article class="texto">' % (d["vid"], e(d["titulo"])))
+    if d.get("mat"): h.append('<a class="lermat" href="../materias/%s/"><div><span>Leia a matéria completa</span><b>%s</b></div><i>→</i></a>' % (d["mat"]["slug"], e(d["mat"]["titulo"])))
     if len(d["resumo"]) > 1: h += ["<p>%s</p>" % e(p) for p in d["resumo"][1:]]
     if d["transc"]:
         h.append('<h2>Transcrição</h2>'); nomes = [n for _, n in d["caps"]] if len(d["caps"]) == len(d["transc"]) else []
@@ -508,6 +541,7 @@ for d in DADOS:
     if d["caps"]: h.append("<h4>Capítulos</h4><ul>" + "".join('<li><a href="https://youtu.be/%s?t=%d"><b>%s</b>%s</a></li>' % (d["vid"], ytseg(t), e(t), e(n)) for t, n in d["caps"]) + "</ul>")
     cs = certezas(d["cert"])
     if cs: h.append("<h4>Grau de certeza</h4><ul>" + "".join("<li>%s<br>%s</li>" % ('<span class="selo %s">%s</span>' % (seloclasse(n), e(nivel(n))) if n else "", e(o)) for n, o in cs) + "</ul>")
+    if d.get("mat"): h.append('<a class="bt" style="display:block;text-align:center;margin-bottom:10px" href="../materias/%s/">Leia a matéria completa</a>' % d["mat"]["slug"])
     h.append('<a class="bt" style="display:block;text-align:center" href="https://youtu.be/%s">Assistir no YouTube</a><a class="bt esc" style="display:block;text-align:center;margin-top:10px;color:var(--off);border-color:var(--off)" href="%s?sub_confirmation=1">Inscrever-se</a></aside></div></div>' % (d["vid"], YT))
     h.append(cta_eq("../"))
     outros = [x for x in DADOS if x is not d][:4]
@@ -586,6 +620,24 @@ if JORNAL:
         blocos.append('<a href="../%s"><time>%d %s</time><span><b>%s</b><i>%s · %s</i></span></a>' % (ed_url(n), d_.day, MESES[d_.month - 1][:3], e(n["titulo"]), e(n["chapeu"]), e(n["linha_fina"])))
     h.append('<div class="w"><section class="acervo"><div class="mast"><div class="nome">O Estrela <em>Negra</em></div><div class="ed">Acervo · %d edições<br>Uma notícia de astronomia por dia</div></div>%s</section></div>' % (len(JORNAL), "".join(blocos)))
     h.append(rodape("../")); open(OUT + "jornal/index.html", "w", encoding="utf-8").write("\n".join(h))
+# ------------------------------------------------------------------ matérias: uma página por vídeo público + índice /materias/
+def md_inline(t): return re.sub(r"\*([^*]+)\*", r"<em>\1</em>", e(t))
+if MATERIAS:
+    for i_, m in enumerate(MATERIAS):
+        d = m["d"]; u = URL + "materias/%s/" % m["slug"]
+        ld = '<script type="application/ld+json">%s</script>' % json.dumps({"@context": "https://schema.org", "@type": "Article", "headline": m["titulo"], "description": m["linha_fina"], "datePublished": m.get("data", ""), "dateModified": m.get("data", ""), "image": URL + d["img"], "inLanguage": "pt-BR", "mainEntityOfPage": u, "isBasedOn": "https://youtu.be/" + d["vid"], "author": {"@type": "Organization", "name": "Redação Estrela Negra"}, "publisher": {"@type": "Organization", "name": "Estrela Negra", "logo": {"@type": "ImageObject", "url": URL + "img/icone.png"}}}, ensure_ascii=False)
+        h = [cabeca(e(m["titulo"]) + " · Estrela Negra", e(corta(m["linha_fina"], 160)), u, cartao_video(d), "article", "../../", "materias/", ld), "</div>"]
+        corpo = "".join(("<h2>%s</h2>" if k == "h2" else "<p>%s</p>") % md_inline(t) for k, t in m["blocos"])
+        fontes = "".join('<li>%s: <a href="%s" rel="nofollow">%s</a></li>' % (e(n), e(l), e(l)) if l else "<li>%s</li>" % e(n) for n, l in m["fontes"])
+        mais = MATERIAS[i_ + 1] if i_ + 1 < len(MATERIAS) else None; menos = MATERIAS[i_ - 1] if i_ > 0 else None
+        nav = '<nav class="navv">%s%s</nav>' % ('<a href="../%s/"><span>← Matéria anterior</span><b>%s</b></a>' % (mais["slug"], e(mais["titulo"])) if mais else "<div></div>", '<a class="d" href="../%s/"><span>Próxima matéria →</span><b>%s</b></a>' % (menos["slug"], e(menos["titulo"])) if menos else "")
+        h.append('<div class="w"><article class="art"><span class="chapeu">%s</span><h1>%s</h1><p class="fina">%s</p><div class="meta2"><span>Redação Estrela Negra · %s</span><span>Matéria do vídeo do canal</span></div><figure><img src="../../%s" alt="%s"><figcaption class="cr">Capa do vídeo no canal Estrela Negra</figcaption></figure><div class="corpo2" style="margin-top:34px">%s</div><p class="certeza"><b>Grau de certeza</b>%s</p><h2 class="tit2 m">Fontes</h2><ol class="fontes">%s</ol><h2 class="tit2 m">Assista ao vídeo</h2><div class="player"><iframe src="https://www.youtube-nocookie.com/embed/%s" title="%s" loading="lazy" allowfullscreen></iframe></div><div class="bts"><a class="bt" href="https://youtu.be/%s">Assistir no YouTube</a><a class="bt esc" href="../../%s/">Episódio com transcrição</a></div>%s</article></div>' % (e(m["chapeu"]), e(m["titulo"]), e(m["linha_fina"]), data_ext(m["data"], False) if m.get("data") else "", d["img"], e(d["titulo"]), corpo, e(m["certeza"]), fontes, d["vid"], e(d["titulo"]), d["vid"], d["sl"], nav))
+        h.append(cta_eq("../../")); h.append(rodape("../../"))
+        os.makedirs(OUT + "materias/" + m["slug"], exist_ok=True); open(OUT + "materias/%s/index.html" % m["slug"], "w", encoding="utf-8").write("\n".join(h))
+    h = [cabeca("Matérias · Estrela Negra", "Uma matéria para cada vídeo do canal: o tema aprofundado, com grau de certeza e fontes.", URL + "materias/", cartao("materias", "Matérias", "O tema de cada vídeo, aprofundado e com fonte", L5 + "T2012_webb_espelho.jpg"), "website", "../", "materias/")]
+    h.append(topo_hero("%d matérias" % len(MATERIAS), "As<br><span>matérias</span>", "O tema de cada vídeo, aprofundado: o que foi medido, o que está em debate e de onde vem cada número.", "../img/anel_pag.jpg"))
+    h.append('<div class="w"><section class="lista"><span class="rot">Lista</span><h2 class="tit2">Todas as <span style="color:var(--rx)">matérias</span></h2><div class="g4" style="margin-top:40px">%s</div></section></div>' % "".join('<a class="it" href="%s/"><img src="../%s" alt="%s" loading="lazy"><p class="n">%s</p><p class="s">%s</p></a>' % (m["slug"], m["d"]["img"], e(m["titulo"]), e(m["titulo"]), e(m["chapeu"])) for m in MATERIAS))
+    h.append(rodape("../")); open(OUT + "materias/index.html", "w", encoding="utf-8").write("\n".join(h))
 # ------------------------------------------------------------------ /links (página do link da bio)
 dm = datetime.date.today().strftime("%d/%m")
 hojef = next((x for x in FOTOS if x.get("data") == dm), None) or (FOTOS[0] if FOTOS else None)
@@ -611,9 +663,9 @@ open(OUT + "links/index.html", "w", encoding="utf-8").write("""<!doctype html><h
 .lk .soc{justify-content:center;margin:28px 0 18px;display:flex}.lk small{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mu2)}</style></head><body><main class="lk">
 <img class="av" src="../img/icone.png" alt="Estrela Negra"><h1>Estrela <span>Negra</span></h1><p class="bio">Astronomia com fonte: o que é certo, o que é debate e de onde vem cada número.</p>%s%s<small><a href="../">estrela-negra.github.io</a></small></main></body></html>""" % (URL, og_l, "".join('<a class="b%s" href="%s"><span>%s</span><b>%s</b></a>' % (" d" if dd else "", u, e(r), e(t)) for u, r, t, dd in btn), SOC))
 hoje = datetime.date.today().isoformat()
-urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "jornal/"] + [URL + ed_url(n) for n in JORNAL] if JORNAL else []) + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
+urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "jornal/"] + [URL + ed_url(n) for n in JORNAL] if JORNAL else []) + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + ([URL + "materias/"] + [URL + "materias/%s/" % m["slug"] for m in MATERIAS] if MATERIAS else []) + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
 open(OUT + "sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, hoje) for u in urls) + "</urlset>")
 open(OUT + "robots.txt", "w").write("User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % URL); open(OUT + ".nojekyll", "w").write("")
 open(OUT + "google019414cc94055bb3.html", "w").write("google-site-verification: google019414cc94055bb3.html")  # Search Console (não apagar)
-print("ok", len(DADOS), "vídeos +", len(FOTOS), "fotos + 5 páginas", "(PRÉVIA COM TODOS)" if TODOS else "")
+print("ok", len(DADOS), "vídeos +", len(MATERIAS), "matérias +", len(FOTOS), "fotos + 5 páginas", "(PRÉVIA COM TODOS)" if TODOS else "")
 
