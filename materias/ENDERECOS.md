@@ -23,7 +23,7 @@ Formato do arquivo: cabeçalho `chave: valor` (reels, slug, chapeu, titulo, linh
 | reels_24 | Como se formam os buracos negros? | https://estrela-negra.github.io/materias/como-se-formam-os-buracos-negros/ | YouTube 16:9 `JXFqd-ejZnI` programado 27/11 18:00; matéria pronta |
 | reels_25 | Por que a gente nunca mais pousou na Lua? | https://estrela-negra.github.io/materias/por-que-nunca-mais-pousamos-na-lua/ | YouTube 16:9 `NShn1KXhbGY` programado 14/12 18:00; matéria pronta |
 | reels_26 | O que é o Paradoxo de Fermi? | https://estrela-negra.github.io/materias/paradoxo-de-fermi/ | YouTube 16:9 `1V5P94QCB2Q` programado 30/11 18:00; matéria pronta |
-| reels_27 | Como nascem as estrelas? | https://estrela-negra.github.io/materias/como-nascem-as-estrelas/ | primeiro vídeo com o CTA no fim; matéria a escrever |
+| reels_27 | Como nascem as estrelas? | https://estrela-negra.github.io/materias/como-nascem-as-estrelas/ | primeiro vídeo com o CTA no fim; matéria pronta; falta pôr o ID do 16:9 em ids_extra.json ("27") |
 
 Os vídeos de reels_24 a reels_26 já foram renderizados sem o CTA; o CTA no fim do vídeo começa no reels_27.
 
