@@ -5,5 +5,5 @@ window.EN_FIREBASE = {
   authDomain: "estrela--site.firebaseapp.com",
   projectId: "estrela--site",
   appId: "1:432922863252:web:0740cc955ed90fba417681",
-  admins: ["MQPdq8bCmFMUqQ5ZyyTXuikqZlI2"]
+  admins: ["MQPdq8bCmFMUqQ5ZyyTXuikqZlI2", "I5HI7uZTTTTR6EfkT3W6BHZXZ443"]
 };
