@@ -435,7 +435,7 @@ IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 
       "tt": '<svg viewBox="0 0 24 24"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2V2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.5a6.3 6.3 0 1 0 5.4 6.2V8.8a8.2 8.2 0 0 0 4.8 1.5V6.9a4.8 4.8 0 0 1-1-.2z"/></svg>'}
 SOC = '<div class="soc"><a href="%s" title="YouTube" aria-label="YouTube">%s</a><a href="%s" title="Instagram" aria-label="Instagram">%s</a><a href="%s" title="TikTok" aria-label="TikTok">%s</a></div>' % (YT, IC["yt"], INSTA, IC["ig"], TT, IC["tt"])
 def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
-    m = [("", "Início")] + ([("jornal/", "Jornal")] if JORNAL else []) + [("episodios/", "Episódios")] + ([("materias/", "Matérias")] if MATERIAS else []) + [("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("sobre/", "Sobre"), ("contato/", "Contato")]
+    m = [("", "Início")] + ([("jornal/", "Jornal")] if JORNAL else []) + [("episodios/", "Episódios")] + ([("materias/", "Matérias")] if MATERIAS else []) + [("fotos/", "Fotos do céu")] + ([("equipamentos/", "Equipamentos")] if COM_LOJA else []) + [("discussoes/", "Discussões"), ("sobre/", "Sobre"), ("contato/", "Contato")]
     menu = "".join('<a class="%s" href="%s%s">%s</a>' % ("on" if k == ativo else "", raiz, k, n) for k, n in m)
     return ("""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:image" content="%s"><meta property="og:type" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="Estrela Negra"><meta name="twitter:card" content="summary_large_image">
@@ -444,6 +444,10 @@ def cabeca(t, d, u, img, tipo, raiz, ativo, ld=""):
 def rodape(raiz):
     return """<footer class="rod"><div class="w"><div class="w1"><div><img src="%simg/logo.png" alt="Estrela Negra"><div>Astronomia com fonte: o que é certo, o que é debate<br>e de onde vem cada número.</div>%s</div><div class="plat"><a href="%s">YouTube</a><a href="%s">Instagram</a><a href="%s">TikTok</a></div><a class="bt" href="%scontato/">Entre em contato</a></div></div>
 <div class="w2"><div class="w"><span>Estrela Negra © 2026 · feito por Bruno Porciúncula</span><span>Imagens: NASA · ESA · ESO e créditos em cada página</span><span class="sim"></span></div></div></footer></body></html>""" % (raiz, SOC, YT, INSTA, TT, raiz)
+def com(raiz, pagina):
+    """bloco de comentários (Firebase); pagina = caminho estável da página, ex. /materias/slug/"""
+    return ('<div class="w"><div id="en-comentarios" data-pagina="%s"></div></div><link rel="stylesheet" href="%sassets/comunidade.css">'
+            '<script src="%sassets/firebase-config.js"></script><script src="%sassets/comunidade.js" data-raiz="%s" defer></script>' % (e(pagina), raiz, raiz, raiz, raiz))
 def destaca(t):
     p = t.split(); k = 2 if len(p) > 3 and len(p[-1]) < 5 else 1
     return e(" ".join(p[:-k])) + ' <span>%s</span>' % e(" ".join(p[-k:]))
@@ -546,7 +550,7 @@ for d in DADOS:
     h.append(cta_eq("../"))
     outros = [x for x in DADOS if x is not d][:4]
     if outros: h.append('<section class="cinza escuro" style="text-align:left"><div class="w"><span class="rot">Continue</span><h2 class="tit">Mais <span>episódios</span></h2><div class="g4" style="margin-top:40px">%s</div></div></section>' % "".join(it(x, "../") for x in outros))
-    h.append(rodape("../")); os.makedirs(OUT + d["sl"]); open(OUT + d["sl"] + "/index.html", "w", encoding="utf-8").write("\n".join(h))
+    h.append(com("../", "/" + d["sl"] + "/")); h.append(rodape("../")); os.makedirs(OUT + d["sl"]); open(OUT + d["sl"] + "/index.html", "w", encoding="utf-8").write("\n".join(h))
 
 # ------------------------------------------------------------------ uma página por foto do céu
 def legenda_partes(t):
@@ -610,7 +614,7 @@ if JORNAL:
         mais = JORNAL[i_ + 1] if i_ + 1 < len(JORNAL) else None; menos = JORNAL[i_ - 1] if i_ > 0 else None
         nav = '<nav class="navv">%s%s</nav>' % ('<a href="../../%s"><span>← Edição anterior</span><b>%s</b></a>' % (ed_url(mais), e(mais["titulo"])) if mais else "<div></div>", '<a class="d" href="../../%s"><span>Próxima edição →</span><b>%s</b></a>' % (ed_url(menos), e(menos["titulo"])) if menos else "")
         h.append('<div class="w"><article class="art"><div class="mast"><div class="nome">O Estrela <em>Negra</em></div><div class="ed">%s<br><a href="../">Acervo de edições</a></div></div><span class="chapeu">%s</span><h1>%s</h1><p class="fina">%s</p><div class="meta2"><span>Redação Estrela Negra</span><span>Fatos conferidos por revisão independente</span></div><figure><img src="../img/%s.jpg" alt="%s"><figcaption class="cr">%s · Imagem: %s (%s)</figcaption></figure><div class="corpo2" style="margin-top:34px">%s</div><p class="certeza"><b>Grau de certeza</b>%s</p><h2 class="tit2" style="font-size:26px;margin-top:40px">Fontes</h2><ol class="fontes">%s</ol>%s</article></div>' % (data_ext(n["data"]), e(n["chapeu"]), e(n["titulo"]), e(n["linha_fina"]), n["data"], e(n["imagem"]["legenda"]), e(n["imagem"]["legenda"]), e(n["imagem"]["credito"]), e(n["imagem"]["licenca"]), "".join("<p>%s</p>" % e(p) for p in n["texto"]), e(n["certeza"]), fontes, nav))
-        h.append(cta_eq("../../")); h.append(rodape("../../"))
+        h.append(com("../../", "/" + ed_url(n))); h.append(cta_eq("../../")); h.append(rodape("../../"))
         os.makedirs(OUT + ed_url(n), exist_ok=True); open(OUT + ed_url(n) + "index.html", "w", encoding="utf-8").write("\n".join(h))
     h = [cabeca("Acervo · O Estrela Negra", "Todas as edições do jornal diário de astronomia do Estrela Negra.", URL + "jornal/", cartao("jornal", "O Estrela Negra", "Uma notícia de astronomia por dia, com fonte", JORNAL[0] and AQUI + "/jornal/img/%s.jpg" % JORNAL[0]["data"]), "website", "../", "jornal/"), "</div>"]
     blocos, mes = [], None
@@ -632,7 +636,7 @@ if MATERIAS:
         mais = MATERIAS[i_ + 1] if i_ + 1 < len(MATERIAS) else None; menos = MATERIAS[i_ - 1] if i_ > 0 else None
         nav = '<nav class="navv">%s%s</nav>' % ('<a href="../%s/"><span>← Matéria anterior</span><b>%s</b></a>' % (mais["slug"], e(mais["titulo"])) if mais else "<div></div>", '<a class="d" href="../%s/"><span>Próxima matéria →</span><b>%s</b></a>' % (menos["slug"], e(menos["titulo"])) if menos else "")
         h.append('<div class="w"><article class="art"><span class="chapeu">%s</span><h1>%s</h1><p class="fina">%s</p><div class="meta2"><span>Redação Estrela Negra · %s</span><span>Matéria do vídeo do canal</span></div><figure><img src="../../%s" alt="%s"><figcaption class="cr">Capa do vídeo no canal Estrela Negra</figcaption></figure><div class="corpo2" style="margin-top:34px">%s</div><p class="certeza"><b>Grau de certeza</b>%s</p><h2 class="tit2 m">Fontes</h2><ol class="fontes">%s</ol><h2 class="tit2 m">Assista ao vídeo</h2><div class="player"><iframe src="https://www.youtube-nocookie.com/embed/%s" title="%s" loading="lazy" allowfullscreen></iframe></div><div class="bts"><a class="bt" href="https://youtu.be/%s">Assistir no YouTube</a><a class="bt esc" href="../../%s/">Episódio com transcrição</a></div>%s</article></div>' % (e(m["chapeu"]), e(m["titulo"]), e(m["linha_fina"]), data_ext(m["data"], False) if m.get("data") else "", d["img"], e(d["titulo"]), corpo, e(m["certeza"]), fontes, d["vid"], e(d["titulo"]), d["vid"], d["sl"], nav))
-        h.append(cta_eq("../../")); h.append(rodape("../../"))
+        h.append(com("../../", "/materias/%s/" % m["slug"])); h.append(cta_eq("../../")); h.append(rodape("../../"))
         os.makedirs(OUT + "materias/" + m["slug"], exist_ok=True); open(OUT + "materias/%s/index.html" % m["slug"], "w", encoding="utf-8").write("\n".join(h))
     h = [cabeca("Matérias · Estrela Negra", "Uma matéria para cada vídeo do canal: o tema aprofundado, com grau de certeza e fontes.", URL + "materias/", cartao("materias", "Matérias", "O tema de cada vídeo, aprofundado e com fonte", L5 + "T2012_webb_espelho.jpg"), "website", "../", "materias/")]
     h.append(topo_hero("%d matérias" % len(MATERIAS), "As<br><span>matérias</span>", "O tema de cada vídeo, aprofundado: o que foi medido, o que está em debate e de onde vem cada número.", "../img/anel_pag.jpg"))
@@ -663,8 +667,26 @@ open(OUT + "links/index.html", "w", encoding="utf-8").write("""<!doctype html><h
 .lk .soc{justify-content:center;margin:28px 0 18px;display:flex}.lk small{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mu2)}</style></head><body><main class="lk">
 <img class="av" src="../img/icone.png" alt="Estrela Negra"><h1>Estrela <span>Negra</span></h1><p class="bio">Astronomia com fonte: o que é certo, o que é debate e de onde vem cada número.</p>%s%s<small><a href="../">estrela-negra.github.io</a></small></main></body></html>""" % (URL, og_l, "".join('<a class="b%s" href="%s"><span>%s</span><b>%s</b></a>' % (" d" if dd else "", u, e(r), e(t)) for u, r, t, dd in btn), SOC))
 hoje = datetime.date.today().isoformat()
-urls = [URL, URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "jornal/"] + [URL + ed_url(n) for n in JORNAL] if JORNAL else []) + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + ([URL + "materias/"] + [URL + "materias/%s/" % m["slug"] for m in MATERIAS] if MATERIAS else []) + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
+urls = [URL, URL + "discussoes/", URL + "episodios/", URL + "fotos/", URL + "sobre/", URL + "contato/", URL + "links/"] + ([URL + "jornal/"] + [URL + ed_url(n) for n in JORNAL] if JORNAL else []) + ([URL + "equipamentos/"] if COM_LOJA else []) + [URL + d["sl"] + "/" for d in DADOS] + ([URL + "materias/"] + [URL + "materias/%s/" % m["slug"] for m in MATERIAS] if MATERIAS else []) + [URL + "fotos/%s/" % x["sl"] for x in FOTOS]
 open(OUT + "sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, hoje) for u in urls) + "</urlset>")
+# ---- comunidade: Discussões + privacidade + assets
+import shutil
+os.makedirs(OUT + "assets", exist_ok=True)
+for _f in ("comunidade.js", "comunidade.css", "firebase-config.js"): shutil.copy(AQUI + "/comunidade/" + _f, OUT + "assets/" + _f)
+os.makedirs(OUT + "discussoes", exist_ok=True)
+h = [cabeca("Discussões · Estrela Negra", "Converse sobre astronomia com quem acompanha o Estrela Negra: perguntas, notícias e fotos do céu.", URL + "discussoes/", URL + "img/og/inicio.jpg", "website", "../", "discussoes/"), "</div>",
+     '<div class="w"><span class="rot">Comunidade</span><h1 class="tit" style="margin-top:12px">Discussões</h1><p style="max-width:640px;color:var(--mu)">Perguntas, notícias, fotos que você fez do céu. Entre com o Google, abra um tópico e vote nos que valem a pena.</p>'
+     '<div id="en-forum"></div></div><link rel="stylesheet" href="../assets/comunidade.css"><script src="../assets/firebase-config.js"></script><script src="../assets/comunidade.js" data-raiz="../" defer></script>', rodape("../")]
+open(OUT + "discussoes/index.html", "w", encoding="utf-8").write("\n".join(h))
+os.makedirs(OUT + "privacidade", exist_ok=True)
+PRIV = [("Quem somos", "O Estrela Negra é um canal de divulgação de astronomia feito por Bruno Porciúncula. Este site é estático; os comentários e as Discussões usam o Firebase (Google) para login e para guardar as mensagens."),
+        ("O que guardamos", "Quando você entra com o Google, guardamos o seu nome público, a sua foto de perfil e um identificador da conta, junto com o texto que você publica e a data. Não guardamos o seu e-mail no site e não vendemos nem compartilhamos dados."),
+        ("Para que usamos", "Só para mostrar quem escreveu cada comentário ou tópico, permitir que você remova o que publicou e moderar abusos (base legal: legítimo interesse e o seu consentimento ao publicar, conforme a LGPD)."),
+        ("Seus direitos", "Você pode remover o que publicou pelo botão Remover. Para apagar todos os seus dados ou tirar dúvidas, use a página de contato do site."),
+        ("Regras da conversa", "Sem ofensas, preconceito, spam ou propaganda. Discorde do argumento, não da pessoa. Ao falar de dados, cite a fonte. Conteúdo denunciado pode ser removido pela moderação.")]
+h = [cabeca("Privacidade e regras · Estrela Negra", "Como o Estrela Negra trata os dados de quem comenta e as regras das Discussões.", URL + "privacidade/", URL + "img/og/inicio.jpg", "website", "../", ""), "</div>",
+     '<div class="w"><article class="art"><h1>Privacidade e regras</h1>' + "".join("<h2>%s</h2><p>%s</p>" % (e(a), e(b)) for a, b in PRIV) + "</article></div>", rodape("../")]
+open(OUT + "privacidade/index.html", "w", encoding="utf-8").write("\n".join(h))
 open(OUT + "robots.txt", "w").write("User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % URL); open(OUT + ".nojekyll", "w").write("")
 open(OUT + "google019414cc94055bb3.html", "w").write("google-site-verification: google019414cc94055bb3.html")  # Search Console (não apagar)
 print("ok", len(DADOS), "vídeos +", len(MATERIAS), "matérias +", len(FOTOS), "fotos + 5 páginas", "(PRÉVIA COM TODOS)" if TODOS else "")
