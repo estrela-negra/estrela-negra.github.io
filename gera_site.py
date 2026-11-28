@@ -433,6 +433,28 @@ MOB = """
 .trio{grid-template-columns:minmax(0,1fr)}.manchete,.anteriores{grid-template-columns:minmax(0,1fr)}.mast{flex-direction:column;align-items:flex-start}.mast .ed{text-align:left}.mast .nome{font-size:34px}.manchete h2,.art h1{font-size:32px}.art .corpo2 p{font-size:19px}.acervo a{grid-template-columns:minmax(0,1fr);gap:4px}.ctaeq{flex-direction:column;align-items:flex-start;padding:28px 22px}.g3l{grid-template-columns:minmax(0,1fr)}.navv{grid-template-columns:minmax(0,1fr)}.lado{position:static}.rod .w2 .w{height:auto;padding:16px 20px;flex-direction:column;gap:10px}
 """
 for f_ in ("hero_anel.jpg", "anel_pag.jpg", "feixe.jpg", "bruno_anel.jpg", "bruno_foto.jpg", "grao.png"): shutil.copy(AQUI + "/arte/" + f_, OUT + "img/" + f_)
+# ---- refinamento LUZ (27/11/2026): aproxima o site da identidade dos posts (Space Grotesk fina, rótulos espaçados, grão, luz roxa)
+CSS += """
+body{font-family:'Space Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;background:url(GRAO);opacity:.07;mix-blend-mode:overlay}
+.art h1,.art h2,.mast .nome,.manchete h2,.manchete h3,.lide h2,.jn h2,.jn h3{font-family:'Space Grotesk',system-ui,sans-serif!important;font-weight:300!important;letter-spacing:-.025em!important}
+.art h1{font-size:52px;line-height:1.04}.art h2{font-size:30px;margin-top:42px}
+.art p,.art li{font-size:17px;line-height:1.75}
+.mast .nome{font-size:40px}.mast .nome em{font-style:normal;font-weight:500}
+.rot,.chapeu,.it .s,.ed,.meta2 span{font-weight:700!important;font-size:11px!important;letter-spacing:.42em!important;text-transform:uppercase}
+.tit,.tit2,.v-hero h1{font-weight:300;letter-spacing:-.035em}
+.tit span,.tit2 span{font-weight:500}
+.menu a{font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase}
+.cinza,section.secao,.claro{background-image:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.55),rgba(255,255,255,0) 70%)}
+.escuro{background-image:radial-gradient(ellipse 55% 50% at 50% 0%,rgba(135,98,243,.16),rgba(135,98,243,0) 70%)}
+.it img,.ep,.foto img,.fotos img{border-radius:6px}
+.it:hover img,.ep:hover,.foto:hover img{box-shadow:0 0 0 1px rgba(168,139,255,.55),0 18px 50px -18px rgba(135,98,243,.65);transform:translateY(-3px)}
+.numeros b,.numeros strong{font-weight:300;letter-spacing:-.04em}
+.bt{letter-spacing:.32em;box-shadow:0 0 22px rgba(135,98,243,.45)}
+.bt:hover{box-shadow:0 0 34px rgba(135,98,243,.75)}
+::selection{background:var(--rx);color:#fff}
+"""
+MOB += ".art h1{font-size:34px!important}.art h2{font-size:24px}.mast .nome{font-size:30px}"
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))
 YT = "https://www.youtube.com/@estrelanegra_p"; INSTA = "https://www.instagram.com/estrelanegra_p/"; TT = "https://www.tiktok.com/@estrelanegra_p"
 IC = {"yt": '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>',
