@@ -453,6 +453,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;ba
 .bt{letter-spacing:.32em;box-shadow:0 0 22px rgba(135,98,243,.45)}
 .bt:hover{box-shadow:0 0 34px rgba(135,98,243,.75)}
 ::selection{background:var(--rx);color:#fff}
+.nav .logo{flex:0 0 auto;margin-right:28px}.nav .logo img{max-width:none;width:auto;height:44px}
 """
 MOB += ".art h1{font-size:34px!important}.art h2{font-size:24px}.mast .nome{font-size:30px}"
 open(OUT + "estilo.css", "w").write((CSS + "@media (max-width:820px){" + MOB + "}").replace("'Newsreader',Georgia,serif", "'Space Grotesk',system-ui,sans-serif").replace("font-style:italic", "font-style:normal").replace("url(GRAO)", "url(img/grao.png)").replace("url(FEIXE)", "url(img/feixe.jpg)"))

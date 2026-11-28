@@ -252,6 +252,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;ba
 .bt{letter-spacing:.32em;box-shadow:0 0 22px rgba(135,98,243,.45)}
 .bt:hover{box-shadow:0 0 34px rgba(135,98,243,.75)}
 ::selection{background:var(--rx);color:#fff}
+.nav .logo{flex:0 0 auto;margin-right:28px}.nav .logo img{max-width:none;width:auto;height:44px}
 @media (max-width:820px){
 .w{padding:0 20px}.nav{height:64px}.nav .logo img{height:28px}.menu{display:none}
 .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:40px 0 0}.hero .img{height:260px}.marca-h{font-size:58px}
