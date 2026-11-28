@@ -12,7 +12,7 @@
     return fetch("https://www.googleapis.com/youtube/v3/channels?part=statistics&id=" + CANAL + "&key=" + KEY).then(function (r) { return r.json(); })
       .then(function (j) { var s = j.items && j.items[0] && j.items[0].statistics; if (!s) throw 0; try { localStorage.setItem("en_yt", JSON.stringify({ t: Date.now(), s: s })); } catch (e) {} return s; });
   }
-  Promise.all([youtube().catch(function () { return null; }), fetch(raiz + "dados/redes.json").then(function (r) { return r.json(); }).catch(function () { return {}; })]).then(function (r) {
+  Promise.all([youtube().catch(function () { return null; }), fetch(raiz + "dados/redes.json", { cache: "no-store" }).then(function (r) { return r.json(); }).catch(function () { return {}; })]).then(function (r) {
     var yt = r[0], rd = r[1] || {}, h = "";
     if (yt) { h += card("visualizações no YouTube", yt.viewCount) + card("inscritos no YouTube", yt.subscriberCount) + card("vídeos publicados", yt.videoCount); }
     [["instagram", "Instagram"], ["tiktok", "TikTok"]].forEach(function (p) { var d = rd[p[0]]; if (!d) return;
