@@ -1,6 +1,6 @@
 .en-c,.en-f{font-family:"Space Grotesk",sans-serif;color:var(--tx);max-width:760px;margin:56px auto 0}
 .en-f{max-width:880px;margin:32px auto 80px}
-.en-h{font-family:"Newsreader",serif;font-weight:400;font-size:30px;margin:0 0 18px}.en-n{color:var(--mu);font-size:20px}
+.en-h{font-family:"Space Grotesk",sans-serif;font-weight:300;letter-spacing:-.02em;font-size:30px;margin:0 0 18px}.en-n{color:var(--mu);font-size:20px}
 .en-off{color:var(--mu);font-size:15px}
 .en-google{display:inline-flex;align-items:center;gap:12px;background:#fff;color:#1f1f1f;border:1px solid var(--ln);border-radius:99px;padding:12px 22px;font:500 14px "Space Grotesk",sans-serif;cursor:pointer}
 .en-google span{font-weight:700;color:var(--rx)}
@@ -19,4 +19,4 @@
 .en-top,.en-tcab{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--ln)}
 .en-votos{display:flex;flex-direction:column;align-items:center;min-width:38px}.en-votos button{background:none;border:0;cursor:pointer;color:var(--mu);font-size:14px;padding:2px}.en-votos button:hover{color:var(--rx)}.en-votos b{font-size:15px}
 .en-tl{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--tx)}.en-tl b{font-size:18px;font-weight:500}.en-tl span{font-size:13px;color:var(--mu)}
-.en-tt{font-family:"Newsreader",serif;font-weight:400;font-size:34px;line-height:1.15;margin:0 0 10px}
+.en-tt{font-family:"Space Grotesk",sans-serif;font-weight:300;letter-spacing:-.02em;font-size:34px;line-height:1.15;margin:0 0 10px}

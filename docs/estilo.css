@@ -106,17 +106,17 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
 .rod .w2 .sim{width:10px;height:10px;border-radius:50%;background:var(--rxl);box-shadow:0 0 12px var(--rxl)}
 
 /* ---------- jornal ---------- */
-.serif{font-family:'Newsreader',Georgia,serif}
+.serif{font-family:'Space Grotesk',system-ui,sans-serif}
 .jn{padding:96px 0 104px}
 .mast{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px double var(--tx);padding-bottom:14px;margin-bottom:34px;gap:20px}
-.mast .nome{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:44px;letter-spacing:-.01em;line-height:1}
-.mast .nome em{font-style:italic;color:var(--rx)}
+.mast .nome{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:500;font-size:44px;letter-spacing:-.01em;line-height:1}
+.mast .nome em{font-style:normal;color:var(--rx)}
 .mast .ed{font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--mu);text-align:right;line-height:1.8}
 .manchete{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:start}
 .chapeu{font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--rx)}
-.manchete h2,.art h1{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:46px;line-height:1.08;letter-spacing:-.015em;margin:14px 0 16px}
+.manchete h2,.art h1{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:46px;line-height:1.08;letter-spacing:-.015em;margin:14px 0 16px}
 .manchete h2 a:hover{color:var(--rx)}
-.fina{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:21px;line-height:1.45;color:#4A4652;margin:0 0 20px}
+.fina{font-family:'Space Grotesk',system-ui,sans-serif;font-style:normal;font-size:21px;line-height:1.45;color:#4A4652;margin:0 0 20px}
 .manchete .lide{font-size:16px;line-height:1.75;color:#3D3A44;margin:0 0 22px}
 .manchete figure,.art figure{margin:0}.manchete img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
 figcaption.cr{font-size:11px;color:var(--mu);margin-top:8px;line-height:1.5}
@@ -124,18 +124,18 @@ figcaption.cr{font-size:11px;color:var(--mu);margin-top:8px;line-height:1.5}
 .anteriores{margin-top:44px;border-top:1px solid var(--ln);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}
 .anteriores a{display:block;padding:18px 0;border-bottom:1px solid var(--ln)}.anteriores a:hover b{color:var(--rx)}
 .anteriores span{display:block;font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
-.anteriores b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:19px;line-height:1.3}
+.anteriores b{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:19px;line-height:1.3}
 .art{max-width:760px;margin:0 auto;padding:72px 0 40px}
 .art .meta2{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mu);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:12px 0;margin:8px 0 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .art figure img{width:100%;max-height:520px;object-fit:cover;border-radius:4px}
-.art .corpo2 p{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.65;color:#25222B;margin:0 0 22px}
+.art .corpo2 p{font-family:'Space Grotesk',system-ui,sans-serif;font-size:21px;line-height:1.65;color:#25222B;margin:0 0 22px}
 .art .corpo2 p:first-child:first-letter{float:left;font-size:72px;line-height:.86;padding:6px 10px 0 0;color:var(--rx)}
 .certeza{border-left:3px solid var(--rx);padding:4px 0 4px 18px;margin:30px 0;font-size:15px;color:#3D3A44}
 .certeza b{display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--rx);margin-bottom:4px}
-.acervo{max-width:860px;margin:0 auto;padding:72px 0 100px}.acervo h3{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:28px;margin:44px 0 6px;border-bottom:3px double var(--tx);padding-bottom:8px}
+.acervo{max-width:860px;margin:0 auto;padding:72px 0 100px}.acervo h3{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:28px;margin:44px 0 6px;border-bottom:3px double var(--tx);padding-bottom:8px}
 .acervo a{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--ln)}.acervo a:hover b{color:var(--rx)}
 .acervo time{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);padding-top:5px}
-.acervo b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:22px;line-height:1.3;display:block}.acervo i{font-style:normal;display:block;font-size:14px;color:var(--mu);margin-top:4px}
+.acervo b{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:22px;line-height:1.3;display:block}.acervo i{font-style:normal;display:block;font-size:14px;color:var(--mu);margin-top:4px}
 
 /* ---------- v6 ---------- */
 ::selection{background:var(--rx);color:#fff}
@@ -208,28 +208,28 @@ body{font-size:16px;line-height:1.7;letter-spacing:.005em}
 .tit,.tit2{font-weight:300;letter-spacing:-.025em}
 .secao,.metodo,.cinza{padding-top:120px;padding-bottom:120px}
 .ultimo{padding:120px 0}
-.ultimo .nome{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:26px;line-height:1.3}
+.ultimo .nome{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:26px;line-height:1.3}
 .ultimo .fig img,.ep.on,.ep:hover{box-shadow:0 20px 50px -20px rgba(10,9,14,.55)}
 .ep{border-color:rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
 .ep:hover{border-color:rgba(168,139,255,.45)}
-.it .n,.ep p{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:18px;line-height:1.35}
-.foto .tl b{font-family:'Newsreader',Georgia,serif;font-weight:400}
-.texto p{font-family:'Newsreader',Georgia,serif;font-size:20px;line-height:1.7;color:#25222B}
+.it .n,.ep p{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:18px;line-height:1.35}
+.foto .tl b{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400}
+.texto p{font-family:'Space Grotesk',system-ui,sans-serif;font-size:20px;line-height:1.7;color:#25222B}
 .lado{border-radius:6px}
 .cx,.pr{border-radius:8px}.cx{border-color:rgba(22,20,28,.1)}
-.pr h3{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:21px}
-.passos i{font-family:'Newsreader',Georgia,serif;font-weight:300}
+.pr h3{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:21px}
+.passos i{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:300}
 .ctaeq{border-radius:8px}
 .chips a,.filtros button{letter-spacing:.18em}
 
 /* ---------- matérias (26/11) ---------- */
-.art .corpo2 h2{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:29px;line-height:1.2;letter-spacing:-.01em;margin:46px 0 16px;color:var(--tx)}
-.art .corpo2 em{font-style:italic}
+.art .corpo2 h2{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:500;font-size:29px;line-height:1.2;letter-spacing:-.01em;margin:46px 0 16px;color:var(--tx)}
+.art .corpo2 em{font-style:normal}
 .art .tit2.m{font-size:26px;margin:44px 0 16px}
 .art .player{margin-top:0}
 .art .bts{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 0}
 .lermat{display:flex;align-items:center;justify-content:space-between;gap:20px;border:1px solid var(--ln);border-left:3px solid var(--rx);border-radius:8px;padding:20px 24px;margin:0 0 44px}
-.lermat span{display:block;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--rx);margin-bottom:4px}.lermat b{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:20px;line-height:1.3}
+.lermat span{display:block;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--rx);margin-bottom:4px}.lermat b{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:400;font-size:20px;line-height:1.3}
 .lermat:hover{border-color:var(--rx)}.lermat i{font-style:normal;color:var(--rx);font-size:22px}
 .menu a{white-space:nowrap}
 @media (min-width:821px) and (max-width:1180px){.menu{gap:18px;letter-spacing:.12em}.nav>.soc{display:none}}
