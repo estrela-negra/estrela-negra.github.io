@@ -1,5 +1,13 @@
 {
   "_como_atualizar": "YouTube atualiza sozinho. Para Instagram e TikTok, troque os números abaixo (só dígitos) e a data, depois publique. null = não mostra.",
-  "instagram": { "seguidores": null, "visualizacoes": null, "data": null },
-  "tiktok": { "seguidores": null, "visualizacoes": null, "data": null }
+  "instagram": {
+    "seguidores": 30,
+    "visualizacoes": null,
+    "data": "27/11/2026"
+  },
+  "tiktok": {
+    "seguidores": 800,
+    "visualizacoes": null,
+    "data": "27/11/2026"
+  }
 }
